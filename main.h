@@ -7,11 +7,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <sys/types.h>
 
 /*Prototypes of functions*/
 
+void print(const char *msg);
 void usr_promt(void);
-void read_cmd(void);
-void run_cmd(char *cmd);
+void read_cmd(char *cmd, size_t size);
+void run_cmd(const char *cmd);
 
 #endif /*main.h*/

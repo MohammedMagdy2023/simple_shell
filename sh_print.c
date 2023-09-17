@@ -2,7 +2,6 @@
 
 /**
 *print - custom function that prints to the stdout
-*
 *@msg: the message to print
 *
 *Return: nothing
