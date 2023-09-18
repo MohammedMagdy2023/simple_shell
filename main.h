@@ -8,9 +8,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 
 /*Prototypes of functions*/
-
+int stringlen(const char *str);
 void print(const char *msg);
 void usr_promt(void);
 void read_cmd(char *cmd, size_t size);

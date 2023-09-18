@@ -8,5 +8,5 @@
 
 void usr_promt(void)
 {
-print("ALX $ ");
+print("Custom_shell$ ");
 }

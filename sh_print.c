@@ -9,5 +9,5 @@
 
 void print(const char *msg)
 {
-write(STDERR_FILENO, msg, strlen(msg));
+write(STDERR_FILENO, msg, stringlen(msg));
 }

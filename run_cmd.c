@@ -10,7 +10,7 @@
 void run_cmd(const char *cmd)
 {
 pid_t ch_pid = fork();
-char cmd_path[100];
+
 if (ch_pid == -1)
 {
 /*indecating forking error*/
