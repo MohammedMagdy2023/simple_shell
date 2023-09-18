@@ -8,5 +8,5 @@
 
 void usr_promt(void)
 {
-print("Custom_shell$ ");
+print("ROOT $ ");
 }
