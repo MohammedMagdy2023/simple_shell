@@ -50,7 +50,7 @@ int _eputchar(char character)
 }
 
 /**
- * _putfd - function to write characters to a specified file descriptor
+ * _fputc - function to write characters to a specified file descriptor
  * @character: The character to write
  * @filedescriptor: The file descriptor where
  * the character should be written
@@ -62,7 +62,7 @@ int _eputchar(char character)
  *
  * Return: 1 on success, 0 on failure.
  */
-int _putfd(char character, int filedescriptor)
+int _fputc(char character, int filedescriptor)
 {
 	static int i;
 	static char buf[OUTPUT_BUF_SIZE];
@@ -78,7 +78,7 @@ int _putfd(char character, int filedescriptor)
 }
 
 /**
- * _putsfd - function to write characters to a specified file descriptor
+ * _fputs - function to write characters to a specified file descriptor
  * @str: he string to write
  * @filedescriptor: he file descriptor where
  * the string should be written
@@ -88,7 +88,7 @@ int _putfd(char character, int filedescriptor)
  *
  * Return: 1 on success, 0 on failure.
  */
-int _putsfd(char *str, int filedescriptor)
+int _fputs(char *str, int filedescriptor)
 {
 	int i = 0;
 
@@ -98,7 +98,7 @@ int _putsfd(char *str, int filedescriptor)
 	}
 	while (*str)
 	{
-		i += _putfd(*str++, filedescriptor);
+		i += _fputc(*str++, filedescriptor);
 	}
 	return (i);
 }

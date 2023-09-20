@@ -118,126 +118,137 @@ typedef struct BuiltInCommand
 	int (*cmd_function)(CommandInfo *);
 } BuiltInCommandTable;
 
-
-/* hsh.c */
-int hsh(CommandInfo *, char **);
-int find_builtin(CommandInfo *);
-void find_cmd(CommandInfo *);
-void fork_cmd(CommandInfo *);
-
-/* cmd_path.c */
-int is_cmd(CommandInfo *, char *);
-char *dup_chars(char *, int, int);
-char *find_path(CommandInfo *, char *, char *);
-
-/* loophsh.c */
-int loophsh(char **);
-
-/* err_string_functions.c */
-void _eputs(char *);
-int _eputchar(char);
-int _putfd(char c, int fd);
-int _putsfd(char *str, int fd);
-
-/* string_functions.c */
-int _strlen(char *);
-int _strcmp(char *, char *);
-char *starts_with(const char *, const char *);
-char *_strcat(char *, char *);
+/* string_functions1.c */
+int _strlen(char *str);
+int _strcmp(char *str1, char *str2);
+char *_strcpy(char *dest, char *src);
+char *_strcat(char *dest, char *src);
 
 /* string_functions2.c */
-char *_strcpy(char *, char *);
-char *_strdup(const char *);
-void _puts(char *);
-int _putchar(char);
+char *_strdup(const char *str);
+char *starts_with(const char *haystack, const char *needle);
+char *_strncpy(char *dest, char *src, int n);
+char *_strncat(char *dest, char *src, int n);
 
 /* string_functions3.c */
-char *_strncpy(char *, char *, int);
-char *_strncat(char *, char *, int);
-char *_strchr(char *, char);
+char *_strchr(char *str, char character);
+char **strtow(char *str, char *delimiter);
+char **strtow2(char *str, char delimiter);
+int _atoi(char *str);
 
 /* string_functions4.c */
-char **strtow(char *, char *);
-char **strtow2(char *, char);
+int replace_string(char **old_str, char *new_str);
 
-/* memory_functions */
-char *_memset(char *, char, unsigned int);
-void ffree(char **);
-void *_realloc(void *, unsigned int, unsigned int);
+/* io_file_functions1.c */
+void _eputs(char *str);
+int _eputchar(char character);
+int _fputc(char character, int filedescriptor);
+int _fputs(char *str, int filedescriptor);
 
-/* memory_functions2.c */
-int bfree(void **);
+/* io_file_functions2.c */
+void _puts(char *str);
+int _putchar(char character);
 
-/* more_functions.c */
-int interactive(CommandInfo *);
-int is_delim(char, char *);
-int _isalpha(int);
-int _atoi(char *);
+/* alias_functions1.c */
+int unset_alias(CommandInfo *info, char *str);
+int set_alias(CommandInfo *info, char *str);
+int print_alias(str_list *node);
+int _myalias(CommandInfo *info);
 
-/* more_functions2.c */
-int _erratoi(char *);
-void print_error(CommandInfo *, char *);
-int print_d(int, int);
-char *convert_number(long int, int, int);
-void remove_comments(char *);
+/* alias_functions2.c */
+int replace_alias(CommandInfo *info);
 
-/* builtin_emulators.c */
-int _myexit(CommandInfo *);
-int _mycd(CommandInfo *);
-int _myhelp(CommandInfo *);
+/* builtin_functions.c */
+int _myexit(CommandInfo *info);
+int _mycd(CommandInfo *info);
+int _myhelp(CommandInfo *info);
 
-/* builtin_emulators2.c */
-int _myhistory(CommandInfo *);
-int _myalias(CommandInfo *);
+/* chain_functions.c */
+int is_chain(CommandInfo *info, char *buf, size_t *p);
+void check_chain(CommandInfo *info, char *buf, size_t *pos, size_t idx, size_t len);
 
-/* getline.c module */
-ssize_t get_input(CommandInfo *);
-int _getline(CommandInfo *, char **, size_t *);
-void sigintHandler(int);
+/* chars_functions.c */
+int is_delim(char character, char *delimiters);
+int _isalpha(int character);
+char *dup_chars(char *source, int start, int stop);
 
-/* info.c module */
-void clear_info(CommandInfo *);
-void set_info(CommandInfo *, char **);
-void free_info(CommandInfo *, int);
+/* enviroment_functions1.c */
+int _myenv(CommandInfo *info);
+char *_getenv(CommandInfo *info, const char *name);
+int _mysetenv(CommandInfo *info);
+int _myunsetenv(CommandInfo *info);
+int populate_env_list(CommandInfo *info);
 
-/* env.c module */
-char *_getenv(CommandInfo *, const char *);
-int _myenv(CommandInfo *);
-int _mysetenv(CommandInfo *);
-int _myunsetenv(CommandInfo *);
-int populate_env_list(CommandInfo *);
+/* enviroment_functions2.c */
+char **get_environ(CommandInfo *info);
+int _unsetenv(CommandInfo *info, char *name);
+int _setenv(CommandInfo *info, char *var, char *value);
+int replace_vars(CommandInfo *info);
 
-/* env2.c module */
-char **get_environ(CommandInfo *);
-int _unsetenv(CommandInfo *, char *);
-int _setenv(CommandInfo *, char *, char *);
+/* getline.c */
+ssize_t read_buf(CommandInfo *info, char *buffer, size_t *bytes_read);
+int _getline(CommandInfo *info, char **ptr, size_t *n);
+void sigintHandler(__attribute__((unused))int sig_num);
 
-/* file_io_functions.c */
+/* history_functions.c */
 char *get_history_file(CommandInfo *info);
 int write_history(CommandInfo *info);
 int read_history(CommandInfo *info);
-int build_history_list(CommandInfo *info, char *buf, int linecount);
+int build_history_list(CommandInfo *info, char *data, int line_number);
 int renumber_history(CommandInfo *info);
 
-/* liststr.c module */
-str_list *add_node(str_list **, const char *, int);
-str_list *add_node_end(str_list **, const char *, int);
-size_t print_list_str(const str_list *);
-int delete_node_at_index(str_list **, unsigned int);
-void free_list(str_list **);
+/* history_functions2.c */
+int _myhistory(CommandInfo *info);
 
-/* liststr2.c module */
-size_t list_len(const str_list *);
-char **str_listo_strings(str_list *);
-size_t print_list(const str_list *);
-str_list *node_starts_with(str_list *, char *, char);
-ssize_t get_node_index(str_list *, str_list *);
+/* hsh.c */
+int hsh(CommandInfo *info, char **cmd_arguments);
 
-/* chain.c */
-int is_chain(CommandInfo *, char *, size_t *);
-void check_chain(CommandInfo *, char *, size_t *, size_t, size_t);
-int replace_alias(CommandInfo *);
-int replace_vars(CommandInfo *);
-int replace_string(char **, char *);
+/* info.c */
+void clear_info(CommandInfo *info);
+void set_info(CommandInfo *info, char **command_line_args);
+void free_info(CommandInfo *info, int all);
+
+/* input_functions.c */
+ssize_t input_buf(CommandInfo *info, char **user_input, size_t *buffer_length);
+ssize_t get_input(CommandInfo *info);
+void remove_comments(char *input_string);
+
+/* err_functions.c */
+int _erratoi(char *str);
+int print_d(int input, int filedescriptor);
+void print_error(CommandInfo *info, char *str);
+char *convert_number(long int num, int base, int flags);
+
+/* list_functions1.c */
+str_list *add_node(str_list **head, const char *str, int num);
+str_list *add_node_end(str_list **head, const char *str, int num);
+size_t print_list_str(const str_list *head);
+int delete_node_at_index(str_list **head, unsigned int index);
+void free_list(str_list **head_ptr);
+
+/* list_functions2.c */
+size_t list_len(const str_list *head);
+char **str_listo_strings(str_list *head);
+size_t print_list(const str_list *head);
+str_list *node_starts_with(str_list *head, char *prefix, char character);
+ssize_t get_node_index(str_list *head, str_list *node);
+
+/* memory_functions.c */
+char *_memset(char *s, char character, unsigned int num_bytes);
+void ffree(char **str_array);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+int bfree(void **ptr);
+
+/* path_functions1.c */
+int is_cmd(CommandInfo *info, char *cmd_path);
+char *find_path(CommandInfo *info, char *pathstr, char *cmd);
+void find_cmd(CommandInfo *info);
+void fork_cmd(CommandInfo *info);
+
+/* path_functions2.c */
+int find_builtin(CommandInfo *info);
+
+/* shell_mode_functions.c */
+int interactive(CommandInfo *info);
 
 #endif

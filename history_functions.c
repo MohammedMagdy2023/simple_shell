@@ -62,12 +62,12 @@ int write_history(CommandInfo *info)
 	/* Iterate through the history and write each history to the file */
 	for (node = info->history; node; node = node->next)
 	{
-		_putsfd(node->str, fileddescriptor);
-		_putfd('\n', fileddescriptor);
+		_fputs(node->str, fileddescriptor);
+		_fputc('\n', fileddescriptor);
 	}
 
 	/* Write the buffer flush character to possibly flush the buffer */
-	_putfd(BUF_FLUSH_FLAG, fileddescriptor);
+	_fputc(BUF_FLUSH_FLAG, fileddescriptor);
 	close(fileddescriptor);
 	return (1);
 }
