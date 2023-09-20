@@ -37,12 +37,12 @@ int _myexit(CommandInfo *info)
 }
 
 /**
- * _mycd - Custom implementation of the "cd" built-in command.
+ * _cd - Custom implementation of the "cd" built-in command.
  * @info: Pointer to a structure containing program information.
  *
  * Return: 0 on success, 1 on error.
  */
-int _mycd(CommandInfo *info)
+int _cd(CommandInfo *info)
 {
 	char *current_dir, *target_dir, buffer[1024];
 	int chdir_result;
@@ -87,12 +87,12 @@ int _mycd(CommandInfo *info)
 }
 
 /**
- * _myhelp - Custom implementation of the "help" built-in command.
+ * _help - Custom implementation of the "help" built-in command.
  * @info: Pointer to a structure containing program information.
  *
  * Return: Always returns 0.
  */
-int _myhelp(CommandInfo *info)
+int _help(CommandInfo *info)
 {
 	char **arg_array;
 

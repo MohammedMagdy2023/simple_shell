@@ -16,11 +16,11 @@ int find_builtin(CommandInfo *info)
 	BuiltInCommandTable builtincmd[] = {
 		{"exit", _myexit},
 		{"env", _myenv},
-		{"help", _myhelp},
+		{"help", _help},
 		{"history", _myhistory},
 		{"setenv", _mysetenv},
 		{"unsetenv", _myunsetenv},
-		{"cd", _mycd},
+		{"cd", _cd},
 		{"alias", _myalias},
 		{NULL, NULL}
 	};

@@ -149,6 +149,11 @@ int _fputs(char *str, int filedescriptor);
 void _puts(char *str);
 int _putchar(char character);
 
+/* chars_functions.c */
+int is_delim(char character, char *delimiters);
+int _isalpha(int character);
+char *dup_chars(char *source, int start, int stop);
+
 /* alias_functions1.c */
 int unset_alias(CommandInfo *info, char *str);
 int set_alias(CommandInfo *info, char *str);
@@ -157,32 +162,28 @@ int _myalias(CommandInfo *info);
 
 /* alias_functions2.c */
 int replace_alias(CommandInfo *info);
+int _mysetenv(CommandInfo *info);
+int _myunsetenv(CommandInfo *info);
 
 /* builtin_functions.c */
 int _myexit(CommandInfo *info);
-int _mycd(CommandInfo *info);
-int _myhelp(CommandInfo *info);
+int _cd(CommandInfo *info);
+int _help(CommandInfo *info);
 
 /* chain_functions.c */
 int is_chain(CommandInfo *info, char *buf, size_t *p);
 void check_chain(CommandInfo *info, char *buf, size_t *pos, size_t idx, size_t len);
 
-/* chars_functions.c */
-int is_delim(char character, char *delimiters);
-int _isalpha(int character);
-char *dup_chars(char *source, int start, int stop);
-
 /* enviroment_functions1.c */
 int _myenv(CommandInfo *info);
 char *_getenv(CommandInfo *info, const char *name);
-int _mysetenv(CommandInfo *info);
-int _myunsetenv(CommandInfo *info);
-int populate_env_list(CommandInfo *info);
-
-/* enviroment_functions2.c */
-char **get_environ(CommandInfo *info);
 int _unsetenv(CommandInfo *info, char *name);
 int _setenv(CommandInfo *info, char *var, char *value);
+
+
+/* enviroment_functions2.c */
+int populate_env_list(CommandInfo *info);
+char **get_environ(CommandInfo *info);
 int replace_vars(CommandInfo *info);
 
 /* getline.c */

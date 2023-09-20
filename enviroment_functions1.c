@@ -92,26 +92,3 @@ int _myunsetenv(CommandInfo *info)
 
 	return (0);
 }
-
-
-/**
- * populate_env_list - Populate the environment list from the 'environ' array.
- * @info: Pointer to a structure containing program information.
- *
- * Return: 0 on success, no error handling for simplicity.
- */
-int populate_env_list(CommandInfo *info)
-{
-	str_list *env_list = NULL;
-	size_t i;
-
-	for (i = 0; environ[i]; i++)
-	{
-		/* Add each environment variable to the end of the list. */
-		add_node_end(&env_list, environ[i], 0);
-	}
-
-	/* Set the 'env' member of the 'info' structure to the populated list.*/
-	info->env_variables = env_list;
-	return (0);
-}
