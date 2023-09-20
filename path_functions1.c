@@ -2,45 +2,45 @@
 
 
 /**
- * is_cmd - Check if the given path points to a regular file.
+ * is_cmd - Check if the given cmd_path points to a regular file.
  * @info: A pointer to an CommandInfo struct (not used in this function).
- * @path: A pointer to a string representing the file path to check.
+ * @cmd_path: A pointer to a string representing the file cmd_path to check.
  *
- * Return: 1 if path is a regular file, 0 otherwise.
+ * Return: 1 if cmd_path is a regular file, 0 otherwise.
  */
-int is_cmd(CommandInfo *info, char *path)
+int is_cmd(CommandInfo *info, char *cmd_path)
 {
 	struct stat st;
 
 	(void)info;
 
-	/* Check if the path is a null pointer or encounter an error */
-	if (!path || stat(path, &st))
+	/* Check if the cmd_path is a null pointer or encounter an error */
+	if (!cmd_path || stat(cmd_path, &st))
 		return (0);
 
 	/* Check if the st_mode of the stat contains the S_IFREG flag, */
-	/* indicating that path is a regular file. */
+	/* indicating that cmd_path is a regular file. */
 	if (st.st_mode & S_IFREG)
 	{
-		return (1); /* Return 1 indicate path is a regular file. */
+		return (1); /* Return 1 indicate cmd_path is a regular file. */
 	}
 	return (0);
 }
 
 /**
- * find_path - Find the full path of a command executable.
+ * find_path - Find the full cmd_path of a command executable.
  * @info: A pointer to an CommandInfo struct (not used in this function).
  * @pathstr: A string containing a list of
  * directories in which to search for the command.
  * @cmd: The command name to find.
  *
  * Return: A pointer to a string containing the full
- * path of the command if found, or NULL if not found.
+ * cmd_path of the command if found, or NULL if not found.
  */
 char *find_path(CommandInfo *info, char *pathstr, char *cmd)
 {
 	int i = 0, curr_pos = 0;
-	char *path;
+	char *cmd_path;
 
 	if (!pathstr)
 		return (NULL);
@@ -55,16 +55,16 @@ char *find_path(CommandInfo *info, char *pathstr, char *cmd)
 		if (!pathstr[i] || pathstr[i] == ':')
 		{
 			/* Extract a directory from pathstr. */
-			path = dup_chars(pathstr, curr_pos, i);
-			if (!*path)
-				_strcat(path, cmd); /* If path is empty, concatenate cmd to it. */
+			cmd_path = dup_chars(pathstr, curr_pos, i);
+			if (!*cmd_path)
+				_strcat(cmd_path, cmd); /* If cmd_path is empty, concatenate cmd to it. */
 			else
 			{
-				_strcat(path, "/"); /* Otherwise, add a '/' before cmd. */
-				_strcat(path, cmd);
+				_strcat(cmd_path, "/"); /* Otherwise, add a '/' before cmd. */
+				_strcat(cmd_path, cmd);
 			}
-			if (is_cmd(info, path))
-				return (path); /* If the constructed path is a valid command, return it. */
+			if (is_cmd(info, cmd_path))
+				return (cmd_path); /* If the constructed cmd_path is a valid command, return it. */
 			if (!pathstr[i])
 				break; /* If we reach the end of pathstr, exit the loop. */
 			curr_pos = i;
@@ -82,41 +82,41 @@ char *find_path(CommandInfo *info, char *pathstr, char *cmd)
  */
 void find_cmd(CommandInfo *info)
 {
-	char *path = NULL;
+	char *cmd_path = NULL;
 	int i, num_args;
 
-	/* Set the default command path to the first argument. */
-	info->path = info->argv[0];
+	/* Set the default command cmd_path to the first argument. */
+	info->cmd_path = info->cmd_arguments[0];
 	/* Check if a line count flag is set and increment the line count. */
 	if (info->linecount_flag == 1)
 	{
-		info->line_count++;
+		info->err_count++;
 		info->linecount_flag = 0;
 	}
 	/* Count the number of non-delimiter arguments. */
-	for (i = 0, num_args = 0; info->arg[i]; i++)
-		if (!is_delim(info->arg[i], " \t\n"))
+	for (i = 0, num_args = 0; info->cmd_str[i]; i++)
+		if (!is_delim(info->cmd_str[i], " \t\n"))
 			num_args++;
 
 	/* If there are no non-delimiter arguments, return early. */
 	if (!num_args)
 		return;
-	/* Try to find the full path of the command. */
-	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
+	/* Try to find the full cmd_path of the command. */
+	cmd_path = find_path(info, _getenv(info, "PATH="), info->cmd_arguments[0]);
 
-	/* If the command path is found, update the info structure and execute cmd */
-	if (path)
+	/* If the command cmd_path is found, update the info structure and execute cmd */
+	if (cmd_path)
 	{
-		info->path = path;
+		info->cmd_path = cmd_path;
 		fork_cmd(info);
 	}
 	else
 	{
 		/* Check if the command can be executed based on certain conditions. */
 		if ((interactive(info) || _getenv(info, "PATH=")
-			|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
+			|| info->cmd_arguments[0][0] == '/') && is_cmd(info, info->cmd_arguments[0]))
 			fork_cmd(info);
-		else if (*(info->arg) != '\n')
+		else if (*(info->cmd_str) != '\n')
 		{
 			info->status = 127;
 			print_error(info, "not found\n");
@@ -145,7 +145,7 @@ void fork_cmd(CommandInfo *info)
 	if (child_pid == 0) /* In the child process. */
 	{
 		/* Execute the command with execve. */
-		if (execve(info->path, info->argv, get_environ(info)) == -1)
+		if (execve(info->cmd_path, info->cmd_arguments, get_environ(info)) == -1)
 		{
 			free_info(info, 1);
 

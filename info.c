@@ -11,9 +11,9 @@
  */
 void clear_info(CommandInfo *info)
 {
-	info->arg = NULL;
-	info->argv = NULL;
-	info->path = NULL;
+	info->cmd_str = NULL;
+	info->cmd_arguments = NULL;
+	info->cmd_path = NULL;
 	info->argc = 0;
 }
 
@@ -28,22 +28,22 @@ void set_info(CommandInfo *info, char **command_line_args)
 	int i = 0;
 
 	info->fname = command_line_args[0];
-	if (info->arg)
+	if (info->cmd_str)
 	{
 	/* Split the argument into an array of strings */
-		info->argv = strtow(info->arg, " \t");
-		if (!info->argv)
+		info->cmd_arguments = strtow(info->cmd_str, " \t");
+		if (!info->cmd_arguments)
 		{
 			/* If splitting fails, allocate memory for a single argument */
-			info->argv = malloc(sizeof(char *) * 2);
-			if (info->argv)
+			info->cmd_arguments = malloc(sizeof(char *) * 2);
+			if (info->cmd_arguments)
 			{
-				info->argv[0] = _strdup(info->arg);
-				info->argv[1] = NULL;
+				info->cmd_arguments[0] = _strdup(info->cmd_str);
+				info->cmd_arguments[1] = NULL;
 			}
 		}
 		/* Count the number of arguments */
-		for (i = 0; info->argv && info->argv[i]; i++)
+		for (i = 0; info->cmd_arguments && info->cmd_arguments[i]; i++)
 			;
 		info->argc = i;
 
@@ -63,37 +63,37 @@ void set_info(CommandInfo *info, char **command_line_args)
 void free_info(CommandInfo *info, int all)
 {
 	/* Free the array of arguments */
-	ffree(info->argv);
-	info->argv = NULL;
+	ffree(info->cmd_arguments);
+	info->cmd_arguments = NULL;
 
-	/* Reset the path */
-	info->path = NULL;
+	/* Reset the cmd_path */
+	info->cmd_path = NULL;
 	if (all)
 	{
 		/* Free argument string if cmd_buf is not present */
-		if (!info->cmd_buf)
-			free(info->arg);
+		if (!info->cmd_buffer)
+			free(info->cmd_str);
 
 		/* Free environment variables list */
-		if (info->env)
-			free_list(&(info->env));
+		if (info->env_variables)
+			free_list(&(info->env_variables));
 
 		/* Free history list */
 		if (info->history)
 			free_list(&(info->history));
 
 		/* Free alias list */
-		if (info->alias)
-			free_list(&(info->alias));
+		if (info->aliases)
+			free_list(&(info->aliases));
 
 		/* Free the environment variables array */
 		ffree(info->environ);
 			info->environ = NULL;
 
 		/* Free cmd_buf and close the read_fd */
-		bfree((void **)info->cmd_buf);
-		if (info->readfd > 2)
-			close(info->readfd);
+		bfree((void **)info->cmd_buffer);
+		if (info->read_file > 2)
+			close(info->read_file);
 
 		/* Output a character, possibly for buffer flushing */
 		_putchar(BUF_FLUSH_FLAG);

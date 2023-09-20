@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * get_history_file - Generates a path to the history file.
+ * get_history_file - Generates a cmd_path to the history file.
  * @info: Pointer to an Info structure containing home directory information.
- * Return: A dynamically allocated string containing the history file path.
+ * Return: A dynamically allocated string containing the history file cmd_path.
  */
 char *get_history_file(CommandInfo *info)
 {
@@ -28,7 +28,7 @@ char *get_history_file(CommandInfo *info)
 	/* Initialize the history_file_path as an empty string */
 	history_file_path[0] = 0;
 
-	/* Copy the home directory path */
+	/* Copy the home directory cmd_path */
 	_strcpy(history_file_path, home_directory);
 
 	/* Append a slash to separate the directory */
@@ -114,11 +114,11 @@ int read_history(CommandInfo *info)
 	if (last != i) /* Check if the last entry was not processed */
 		build_history_list(info, buf + last, linecount++);
 	free(buf); /* Free the buffer as it's no longer needed */
-	info->histcount = linecount; /* Update the history entry count */
-	while (info->histcount-- >= MAX_HISTORY_ENTRIES) /* Remove excess if count exceeds max */
+	info->history_count = linecount; /* Update the history entry count */
+	while (info->history_count-- >= MAX_HISTORY_ENTRIES) /* Remove excess if count exceeds max */
 		delete_node_at_index(&(info->history), 0);
 	renumber_history(info); /* Renumber the history entries */
-	return (info->histcount);
+	return (info->history_count);
 }
 
 /**
@@ -157,5 +157,5 @@ int renumber_history(CommandInfo *info)
 		node->num = cpt++;
 		node = node->next;
 	}
-	return (info->histcount = cpt);
+	return (info->history_count = cpt);
 }

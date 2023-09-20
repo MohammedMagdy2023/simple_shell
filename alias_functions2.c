@@ -15,15 +15,15 @@ int replace_alias(CommandInfo *info)
 
 	for (i = 0; i < 10; i++)
 	{
-		/* Find an alias node that matches the command (info->argv[0]). */
-		node = node_starts_with(info->alias, info->argv[0], '=');
+		/* Find an alias node that matches the command (info->cmd_arguments[0]). */
+		node = node_starts_with(info->aliases, info->cmd_arguments[0], '=');
 
 		/* If no matching alias is found, exit the loop. */
 		if (!node)
 			return (0);
 
-		/* Free the current command (info->argv[0]). */
-		free(info->argv[0]);
+		/* Free the current command (info->cmd_arguments[0]). */
+		free(info->cmd_arguments[0]);
 
 		/* Find the location of the equal sign ('=') in the alias string. */
 		equal_sign = _strchr(node->str, '=');
@@ -40,7 +40,7 @@ int replace_alias(CommandInfo *info)
 			return (0);
 
 		/* Update the command with the alias value. */
-		info->argv[0] = equal_sign;
+		info->cmd_arguments[0] = equal_sign;
 	}
 	return (1);
 }

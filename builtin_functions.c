@@ -12,27 +12,27 @@ int _myexit(CommandInfo *info)
 	int exit_code;
 
 	/* Check if there is an argument after "exit." */
-	if (info->argv[1])
+	if (info->cmd_arguments[1])
 	{
 		/* Convert the argument to an integer.*/
-		exit_code = _erratoi(info->argv[1]);
+		exit_code = _erratoi(info->cmd_arguments[1]);
 		if (exit_code == -1)
 		{
 			/* If conversion fails, set an error status and print an error message.*/
 			info->status = 2;
 			print_error(info, "Illegal number: ");
-			_eputs(info->argv[1]);
+			_eputs(info->cmd_arguments[1]);
 			_eputchar('\n');
 			return (1);
 		}
 
 		/* Store the exit code .*/
-		info->err_num = _erratoi(info->argv[1]);
+		info->err_number = _erratoi(info->cmd_arguments[1]);
 		return (-2); /* Return -2 to indicate program exit with a err code. */
 	}
 
 	/* If no argument is provided, set the error number to -1 and exit. */
-	info->err_num = -1;
+	info->err_number = -1;
 	return (-2); /* Return -2 to indicate program exit without a specific code. */
 }
 
@@ -50,7 +50,7 @@ int _mycd(CommandInfo *info)
 	current_dir = getcwd(buffer, 1024); /* Get current directory.*/
 	if (!current_dir)
 		_puts("TODO: >>getcwd failure emsg here<<\n");
-	if (!info->argv[1]) /* Check if no argument is provided.*/
+	if (!info->cmd_arguments[1]) /* Check if no argument is provided.*/
 	{ /* Try to change to the user's home directory or root */
 		target_dir = _getenv(info, "HOME=");
 		if (!target_dir)
@@ -59,7 +59,7 @@ int _mycd(CommandInfo *info)
 		else
 			chdir_result = chdir(target_dir);
 	}
-	else if (_strcmp(info->argv[1], "-") == 0) /* Check if the arg is hyphen.*/
+	else if (_strcmp(info->cmd_arguments[1], "-") == 0) /* Check if the cmd_str is hyphen.*/
 	{
 		if (!_getenv(info, "OLDPWD=")) /* Check if the "OLDPWD" env var is set.*/
 		{
@@ -72,11 +72,11 @@ int _mycd(CommandInfo *info)
 			chdir((target_dir = _getenv(info, "OLDPWD=")) ? target_dir : "/");
 	}
 	else /* Otherwise, treat the argument as a target directory.*/
-		chdir_result = chdir(info->argv[1]);
+		chdir_result = chdir(info->cmd_arguments[1]);
 	if (chdir_result == -1)
 	{
 		print_error(info, "can't cd to ");
-		_eputs(info->argv[1]), _eputchar('\n');
+		_eputs(info->cmd_arguments[1]), _eputchar('\n');
 	}
 	else /* Update the "OLDPWD" and "PWD" environment variables.*/
 	{
@@ -97,7 +97,7 @@ int _myhelp(CommandInfo *info)
 	char **arg_array;
 
 	/* Store the argument array in a local variable (not currently used).*/
-	arg_array = info->argv;
+	arg_array = info->cmd_arguments;
 
 	/* Print a message function "help" is not yet implemented. */
 	_puts("help call works. Function not yet implemented \n");

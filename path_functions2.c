@@ -29,10 +29,10 @@ int find_builtin(CommandInfo *info)
 	for (i = 0; builtintbl[i].type; i++)
 
 		/* Check if the user's input matches a built-in command.*/
-		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
+		if (_strcmp(info->cmd_arguments[0], builtintbl[i].type) == 0)
 		{
 		/* Increment the line count and execute the built-in command.*/
-			info->line_count++;
+			info->err_count++;
 			built_in_ret = builtintbl[i].func(info);
 			break;
 		}

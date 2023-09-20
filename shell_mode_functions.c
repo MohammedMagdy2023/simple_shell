@@ -14,5 +14,5 @@ int interactive(CommandInfo *info)
 	/* and if the read file in info is less than or equal to 2. */
 	/* File  0, 1, and 2 are typically associated with stdio and stderr. */
 
-	return (isatty(STDIN_FILENO) && info->readfd <= 2);
+	return (isatty(STDIN_FILENO) && info->read_file <= 2);
 }

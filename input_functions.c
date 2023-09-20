@@ -42,11 +42,11 @@ ssize_t input_buf(CommandInfo *info, char **user_input, size_t *buffer_length)
 			remove_comments(*user_input); /* Remove comments from the input */
 
 			/* Build a history list with the input and increment the history count */
-			build_history_list(info, *user_input, info->histcount++);
+			build_history_list(info, *user_input, info->history_count++);
 			/* if (_strchr(*user_input, ';')) is this a command chain? */
 			{
 				*buffer_length = characters_read; /* Update buff len ,store info  */
-				info->cmd_buf = user_input;
+				info->cmd_buffer = user_input;
 			}
 		}
 	}
@@ -67,7 +67,7 @@ ssize_t get_input(CommandInfo *info)
 	static char *buf;
 	static size_t i, j, len;
 	ssize_t r = 0;
-	char **buf_p = &(info->arg), *p;
+	char **buf_p = &(info->cmd_str), *p;
 
 	_putchar(BUF_FLUSH_FLAG);
 	r = input_buf(info, &buf, &len);
@@ -90,7 +90,7 @@ ssize_t get_input(CommandInfo *info)
 		if (i >= len)
 		{
 			i = len = 0;
-			info->cmd_buf_type = NORMAL_COMMAND;
+			info->cmd_chaintype = NORMAL_COMMAND;
 		}
 
 		*buf_p = p;

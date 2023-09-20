@@ -13,7 +13,7 @@ char **get_environ(CommandInfo *info)
 	if (!info->environ || info->env_changed)
 	{
 		/* Convert the linked list of environment variables to an array of strings.*/
-		info->environ = str_listo_strings(info->env);
+		info->environ = str_listo_strings(info->env_variables);
 
 		/* Reset the 'env_changed' to indicate that the environment is updated.*/
 		info->env_changed = 0;
@@ -31,7 +31,7 @@ char **get_environ(CommandInfo *info)
  */
 int _unsetenv(CommandInfo *info, char *name)
 {
-	str_list *current_node = info->env;
+	str_list *current_node = info->env_variables;
 	size_t i = 0;
 	char *p;
 
@@ -49,11 +49,11 @@ int _unsetenv(CommandInfo *info, char *name)
 		if (p && *p == '=')
 		{
 			/* Delete the node at the current index and update the 'env_changed'. */
-			info->env_changed = delete_node_at_index(&(info->env), i);
+			info->env_changed = delete_node_at_index(&(info->env_variables), i);
 
 			/* Reset the index and start over from the beginning of the list. */
 			i = 0;
-			current_node = info->env;
+			current_node = info->env_variables;
 			continue;
 		}
 		current_node = current_node->next;
@@ -88,7 +88,7 @@ int _setenv(CommandInfo *info, char *var, char *value)
 	_strcat(buf, "=");
 	_strcat(buf, value);
 	/* Start at the beginning of the environment list. */
-	current_node = info->env;
+	current_node = info->env_variables;
 	/* Loop through the environment list. */
 	while (current_node)
 	{
@@ -107,7 +107,7 @@ int _setenv(CommandInfo *info, char *var, char *value)
 		current_node = current_node->next;
 	}
 	/* If the variable does not exist, add it to the end of the env list. */
-	add_node_end(&(info->env), buf, 0);
+	add_node_end(&(info->env_variables), buf, 0);
 	/* Free the allocated memory for the new environment variable string. */
 	free(buf);
 	info->env_changed = 1; /* Set the 'env_changed' flag to indicate a change. */
@@ -124,40 +124,40 @@ int replace_vars(CommandInfo *info)
 	int i = 0;
 	str_list *node;
 
-	/* Loop through each argument in the argv array */
-	for (i = 0; info->argv[i]; i++)
+	/* Loop through each argument in the cmd_arguments array */
+	for (i = 0; info->cmd_arguments[i]; i++)
 	{
 		/* Check if the argument starts with a '$' character and is not empty */
-		if (info->argv[i][0] != '$' || !info->argv[i][1])
+		if (info->cmd_arguments[i][0] != '$' || !info->cmd_arguments[i][1])
 			continue; /* Skip if doesn't start with '$' or is empty */
 
 		/* Check if the argument is "$?" */
-		if (!_strcmp(info->argv[i], "$?"))
+		if (!_strcmp(info->cmd_arguments[i], "$?"))
 		{
 			/* Replace with the exit status converted to a string */
-			replace_string(&(info->argv[i]),
+			replace_string(&(info->cmd_arguments[i]),
 				_strdup(convert_number(info->status, 10, 0)));
 			continue; /* Move to the next argument */
 		}
 		/* Check if the argument is "$$" */
-		if (!_strcmp(info->argv[i], "$$"))
+		if (!_strcmp(info->cmd_arguments[i], "$$"))
 		{
 			/* Replace with the current process ID converted to a string */
-			replace_string(&(info->argv[i]),
+			replace_string(&(info->cmd_arguments[i]),
 				_strdup(convert_number(getpid(), 10, 0)));
 			continue;
 		}
-		/* Find an env variable that matches the arg (exclud '$') */
-		node = node_starts_with(info->env, &info->argv[i][1], '=');
+		/* Find an env variable that matches the cmd_str (exclud '$') */
+		node = node_starts_with(info->env_variables, &info->cmd_arguments[i][1], '=');
 		if (node)
 		{
 			/* Replace with the value of the environment variable */
-			replace_string(&(info->argv[i]),
+			replace_string(&(info->cmd_arguments[i]),
 				_strdup(_strchr(node->str, '=') + 1));
 			continue;
 		}
 		/* If no match was found, replace the argument with an empty string */
-		replace_string(&info->argv[i], _strdup(""));
+		replace_string(&info->cmd_arguments[i], _strdup(""));
 
 	}
 	return (0);

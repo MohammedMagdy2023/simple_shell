@@ -54,9 +54,9 @@ typedef struct str_list
 /**
  *struct CommandInfo - contains pseudo-arguements to pass into a function,
  *					allowing uniform prototype for function pointer struct
- *@arg: a string generated from getline containing arguements
- *@argv: an array of strings generated from arg
- *@path: a string path for the current command
+ *@cmd_str: a string generated from getline containing arguements
+ *@cmd_arguments: an array of strings generated from cmd_str
+ *@cmd_path: a string cmd_path for the current command
  *@argc: the argument count
  *@line_count: the error count
  *@err_num: the error code for exit()s
@@ -73,27 +73,25 @@ typedef struct str_list
  *@readfd: the fd from which to read line input
  *@histcount: the history line number count
  */
-typedef struct CommandInfo
-{
-	char *arg;
-	char **argv;
-	char *path;
-	int argc;
-	unsigned int line_count;
-	int err_num;
-	int linecount_flag;
-	char *fname;
-	str_list *env;
-	str_list *history;
-	str_list *alias;
-	char **environ;
-	int env_changed;
-	int status;
-
-	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
-	int cmd_buf_type; /* CMD_type ||, &&, ; */
-	int readfd;
-	int histcount;
+typedef struct CommandInfo {
+    char *cmd_str;
+    char **cmd_arguments;
+    char *cmd_path;
+    int argc;
+    unsigned int err_count;
+    int err_number;
+    int linecount_flag;
+    char *fname;
+    str_list *env_variables;
+    str_list *history;
+    str_list *aliases;
+    char **environ;
+    int env_changed;
+    int status;
+    char **cmd_buffer;
+    int cmd_chaintype;
+    int read_file;
+    int history_count;
 } CommandInfo;
 
 #define INFO_INITIALIZER \
@@ -118,7 +116,7 @@ int find_builtin(CommandInfo *);
 void find_cmd(CommandInfo *);
 void fork_cmd(CommandInfo *);
 
-/* path.c */
+/* cmd_path.c */
 int is_cmd(CommandInfo *, char *);
 char *dup_chars(char *, int, int);
 char *find_path(CommandInfo *, char *, char *);

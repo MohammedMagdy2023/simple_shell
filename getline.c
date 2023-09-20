@@ -19,7 +19,7 @@ ssize_t read_buf(CommandInfo *info, char *buffer, size_t *bytes_read)
 	}
 
 	/* Read data from the specified file descriptor into the buffer. */
-	read_result = read(info->readfd, buffer, INPUT_BUF_SIZE);
+	read_result = read(info->read_file, buffer, INPUT_BUF_SIZE);
 
 	/* Update the bytes_read variable with the number of bytes read. */
 	if (read_result >= 0)

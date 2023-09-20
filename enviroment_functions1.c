@@ -9,7 +9,7 @@
  */
 int _myenv(CommandInfo *info)
 {
-	print_list_str(info->env);
+	print_list_str(info->env_variables);
 	return (0);
 }
 
@@ -23,7 +23,7 @@ int _myenv(CommandInfo *info)
  */
 char *_getenv(CommandInfo *info, const char *name)
 {
-	str_list *current_node = info->env;
+	str_list *current_node = info->env_variables;
 	char *p;
 
 	/* Iterate through the list of environment variables.*/
@@ -60,7 +60,7 @@ int _mysetenv(CommandInfo *info)
 	}
 
 	/* Call the _setenv function to set the environment variable. */
-	if (_setenv(info, info->argv[1], info->argv[2]))
+	if (_setenv(info, info->cmd_arguments[1], info->cmd_arguments[2]))
 	{
 		return (0);
 	}
@@ -87,7 +87,7 @@ int _myunsetenv(CommandInfo *info)
 	/* Loop through the arguments starting from index 1. */
 	for (i = 1; i <= info->argc; i++)
 	{
-		_unsetenv(info, info->argv[i]);
+		_unsetenv(info, info->cmd_arguments[i]);
 	}
 
 	return (0);
@@ -112,6 +112,6 @@ int populate_env_list(CommandInfo *info)
 	}
 
 	/* Set the 'env' member of the 'info' structure to the populated list.*/
-	info->env = env_list;
+	info->env_variables = env_list;
 	return (0);
 }

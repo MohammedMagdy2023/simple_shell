@@ -98,9 +98,9 @@ void print_error(CommandInfo *info, char *str)
 	_eputs(info->fname);
 	_eputs(": ");
 	/* Print the line number where the error occurred */
-	print_d(info->line_count, STDERR_FILENO);
+	print_d(info->err_count, STDERR_FILENO);
 	_eputs(": ");
-	_eputs(info->argv[0]); /* Print the name of the program */
+	_eputs(info->cmd_arguments[0]); /* Print the name of the program */
 	_eputs(": ");
 	_eputs(str); /* Print the error string */
 }

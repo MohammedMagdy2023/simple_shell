@@ -27,8 +27,8 @@ int unset_alias(CommandInfo *info, char *str)
 	*equal_sign = 0;
 
 	/* Delete the alias by its index and calling the delete function. */
-	result = delete_node_at_index(&(info->alias),
-		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
+	result = delete_node_at_index(&(info->aliases),
+		get_node_index(info->aliases, node_starts_with(info->aliases, str, -1)));
 
 	/* Restore the saved character to its original location. */
 	*equal_sign = saved_char;
@@ -59,7 +59,7 @@ int set_alias(CommandInfo *info, char *str)
 
 	/* Call unset_alias to remove any existing alias with the same name.*/
 	unset_alias(info, str);
-	return (add_node_end(&(info->alias), str, 0) == NULL);
+	return (add_node_end(&(info->aliases), str, 0) == NULL);
 }
 
 /**
@@ -109,7 +109,7 @@ int _myalias(CommandInfo *info)
 	if (info->argc == 1)
 	{
 		/* Print all aliases in the linked list.*/
-		node = info->alias;
+		node = info->aliases;
 		while (node)
 		{
 			print_alias(node);
@@ -119,14 +119,14 @@ int _myalias(CommandInfo *info)
 	}
 
 	/* Loop through command-line arguments. */
-	for (i = 1; info->argv[i]; i++)
+	for (i = 1; info->cmd_arguments[i]; i++)
 	{
 		/* Find the location of the equal sign ('=') in the argument. */
-		equal_sign = _strchr(info->argv[i], '=');
+		equal_sign = _strchr(info->cmd_arguments[i], '=');
 		if (equal_sign)
-			set_alias(info, info->argv[i]);
+			set_alias(info, info->cmd_arguments[i]);
 		else
-			print_alias(node_starts_with(info->alias, info->argv[i], '='));
+			print_alias(node_starts_with(info->aliases, info->cmd_arguments[i], '='));
 	}
 
 	return (0);

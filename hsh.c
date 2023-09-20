@@ -3,11 +3,11 @@
 /**
  * hsh - Custom shell function that reads and executes user commands.
  * @info: Pointer to a structure containing program information.
- * @argv: Command-line arguments.
+ * @cmd_arguments: Command-line arguments.
  *
  * Return: The return value of the executed command.
  */
-int hsh(CommandInfo *info, char **argv)
+int hsh(CommandInfo *info, char **cmd_arguments)
 {
 	ssize_t read_result = 0;
 	int builtin_result = 0;
@@ -28,7 +28,7 @@ int hsh(CommandInfo *info, char **argv)
 		read_result = get_input(info);
 		if (read_result != -1)
 		{
-			set_info(info, argv); /* Set up command information. */
+			set_info(info, cmd_arguments); /* Set up command information. */
 			builtin_result = find_builtin(info);
 			if (builtin_result == -1)
 				find_cmd(info);
@@ -44,9 +44,9 @@ int hsh(CommandInfo *info, char **argv)
 		exit(info->status);
 	if (builtin_result == -2)
 	{
-		if (info->err_num == -1) /* If error, exit with that error code.*/
+		if (info->err_number == -1) /* If error, exit with that error code.*/
 			exit(info->status);
-		exit(info->err_num);
+		exit(info->err_number);
 	}
 	return (builtin_result);
 }

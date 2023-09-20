@@ -17,20 +17,20 @@ int is_chain(CommandInfo *info, char *buf, size_t *p)
 	{
 		buf[pos] = 0;
 		pos++;
-		info->cmd_buf_type = OR_COMMAND;
+		info->cmd_chaintype = OR_COMMAND;
 	}
 	/* Check for the logical AND operator (&&) */
 	else if (buf[pos] == '&' && buf[pos + 1] == '&')
 	{
 		buf[pos] = 0;
 		pos++;
-		info->cmd_buf_type = AND_COMMAND;
+		info->cmd_chaintype = AND_COMMAND;
 	}
 	/* Check for the semicolon operator (;) */
 	else if (buf[pos] == ';')
 	{
 		buf[pos] = 0; /* Replace semicolon with null */
-		info->cmd_buf_type = COMMAND_CHAIN;
+		info->cmd_chaintype = COMMAND_CHAIN;
 	}
 	else
 		return (0); /* No chaining operator found */
@@ -51,7 +51,7 @@ void check_chain(CommandInfo *info, char *buf, size_t *pos, size_t idx, size_t l
 	size_t temp_pos = *pos;
 
 	/* Check if the command buffer type is AND_COMMAND */
-	if (info->cmd_buf_type == AND_COMMAND)
+	if (info->cmd_chaintype == AND_COMMAND)
 	{
 		/* If the prev command had a non-zero status, terminate the current one */
 		if (info->status)
@@ -61,7 +61,7 @@ void check_chain(CommandInfo *info, char *buf, size_t *pos, size_t idx, size_t l
 		}
 	}
 	/* Check if the command buffer type is OR_COMMAND */
-	if (info->cmd_buf_type == OR_COMMAND)
+	if (info->cmd_chaintype == OR_COMMAND)
 	{
 		/* If the prev command had a non-zero status, terminate the current one */
 		if (!info->status)
