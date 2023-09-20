@@ -10,10 +10,10 @@
  */
 int find_builtin(CommandInfo *info)
 {
-	int i, built_in_ret = -1;
+	int i, builtin_result = -1;
 
 	/* Define an array of built-in commands their corresponding functions. */
-	BuiltInCommandTable builtintbl[] = {
+	BuiltInCommandTable builtincmd[] = {
 		{"exit", _myexit},
 		{"env", _myenv},
 		{"help", _myhelp},
@@ -26,15 +26,15 @@ int find_builtin(CommandInfo *info)
 	};
 
 	/* Loop through the array of built-in commands. */
-	for (i = 0; builtintbl[i].type; i++)
+	for (i = 0; builtincmd[i].type; i++)
 
 		/* Check if the user's input matches a built-in command.*/
-		if (_strcmp(info->cmd_arguments[0], builtintbl[i].type) == 0)
+		if (_strcmp(info->cmd_arguments[0], builtincmd[i].type) == 0)
 		{
 		/* Increment the line count and execute the built-in command.*/
 			info->err_count++;
-			built_in_ret = builtintbl[i].func(info);
+			builtin_result = builtincmd[i].func(info);
 			break;
 		}
-	return (built_in_ret);
+	return (builtin_result);
 }

@@ -12,17 +12,17 @@ int main(int argc, char **cmd_arguments)
 	/* Initialize an array of 'info' structures */
 	CommandInfo info[] = { INFO_INITIALIZER };
 	/* File descriptor for standard error (stderr) */
-	int stderr_fd = 2;
+	int stderr_file = 2;
 
 	asm ("mov %1, %0\n\t"
 		"add $3, %0"
-		: "=r" (stderr_fd)
-		: "r" (stderr_fd));
+		: "=r" (stderr_file)
+		: "r" (stderr_file));
 
 	if (argc == 2)
 	{
-		stderr_fd = open(cmd_arguments[1], O_RDONLY);
-		if (stderr_fd == -1)
+		stderr_file = open(cmd_arguments[1], O_RDONLY);
+		if (stderr_file == -1)
 		{
 			if (errno == EACCES)
 				exit(126);
@@ -37,7 +37,7 @@ int main(int argc, char **cmd_arguments)
 			}
 			return (EXIT_FAILURE);
 		}
-		info->read_file = stderr_fd;
+		info->read_file = stderr_file;
 	}
 
 	/* Populate environment list */
