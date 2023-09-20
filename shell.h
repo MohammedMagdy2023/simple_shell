@@ -103,11 +103,11 @@ typedef struct CommandInfo {
  *@type: the builtin command flag
  *@func: the function
  */
-typedef struct builtin
+typedef struct BuiltInCommand
 {
 	char *type;
 	int (*func)(CommandInfo *);
-} builtin_table;
+} BuiltInCommandTable;
 
 
 /* hsh.c */

@@ -13,7 +13,7 @@ int find_builtin(CommandInfo *info)
 	int i, built_in_ret = -1;
 
 	/* Define an array of built-in commands their corresponding functions. */
-	builtin_table builtintbl[] = {
+	BuiltInCommandTable builtintbl[] = {
 		{"exit", _myexit},
 		{"env", _myenv},
 		{"help", _myhelp},
