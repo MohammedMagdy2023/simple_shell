@@ -78,9 +78,9 @@ int replace_vars(CommandInfo *info)
 			replace_string(&(info->cmd_arguments[i]),
 				_strdup(convert_number(getpid(), 10, 0)));
 			continue;
-		}
-		/* Find an env variable that matches the cmd_str (exclud '$') */
-		node = node_starts_with(info->env_variables, &info->cmd_arguments[i][1], '=');
+		} /* Find an env var matches cmd_str (exclud '$') */
+		node = node_starts_with(info->env_variables,
+			&info->cmd_arguments[i][1], '=');
 		if (node)
 		{
 			/* Replace with the value of the environment variable */

@@ -64,7 +64,7 @@ char *find_path(CommandInfo *info, char *pathstr, char *cmd)
 				_strcat(cmd_path, cmd);
 			}
 			if (is_cmd(info, cmd_path))
-				return (cmd_path); /* If the constructed cmd_path is a valid command, return it. */
+				return (cmd_path); /* If cmd_path is a valid command, return it. */
 			if (!pathstr[i])
 				break; /* If we reach the end of pathstr, exit the loop. */
 			curr_pos = i;
@@ -97,14 +97,13 @@ void find_cmd(CommandInfo *info)
 	for (i = 0, num_args = 0; info->cmd_str[i]; i++)
 		if (!is_delim(info->cmd_str[i], " \t\n"))
 			num_args++;
-
 	/* If there are no non-delimiter arguments, return early. */
 	if (!num_args)
 		return;
 	/* Try to find the full cmd_path of the command. */
 	cmd_path = find_path(info, _getenv(info, "PATH="), info->cmd_arguments[0]);
 
-	/* If the command cmd_path is found, update the info structure and execute cmd */
+	/* If cmd_path is found,update the info structure and execute cmd */
 	if (cmd_path)
 	{
 		info->cmd_path = cmd_path;
@@ -114,7 +113,8 @@ void find_cmd(CommandInfo *info)
 	{
 		/* Check if the command can be executed based on certain conditions. */
 		if ((interactive(info) || _getenv(info, "PATH=")
-			|| info->cmd_arguments[0][0] == '/') && is_cmd(info, info->cmd_arguments[0]))
+			|| info->cmd_arguments[0][0] == '/')
+			&& is_cmd(info, info->cmd_arguments[0]))
 			fork_cmd(info);
 		else if (*(info->cmd_str) != '\n')
 		{

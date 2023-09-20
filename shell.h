@@ -36,11 +36,12 @@
 #define MAX_HISTORY_ENTRIES	4096
 
 /**
- * INFO_INITIALIZER - Macro for initializing a CommandInfo struct with default values.
+ * INFO_INITIALIZER - Macro for initializing a
+ * CommandInfo struct with default values.
  *
- * This macro creates an instance of the CommandInfo struct with all its members
- * set to appropriate initial values, typically NULL or 0. It is useful for creating
- * a default CommandInfo instance when setting up or resetting command information.
+ * This macro creates an instance of the CommandInfo struct with all members
+ * set initial values, typically NULL or 0. It is useful for creating
+ * a default CommandInfo instance when sett up or resetting cmd information.
  */
 #define INFO_INITIALIZER \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
@@ -67,50 +68,52 @@ typedef struct str_list
  * struct CommandInfo - Represents information about a command in a shell.
  *
  * @cmd_str: The original command string entered by the user.
- * @cmd_arguments: An array of strings representing the individual command arguments.
+ * @cmd_arguments: An array of strs represent the individual cmd arguments.
  * @cmd_path: The path to the executable associated with the command.
  * @argc: The number of command arguments.
  * @err_count: Count of errors encountered while processing the command.
- * @err_number: The error number associated with the command (if an error occurred).
+ * @err_number: The error number associated with the cmd (if error occurred).
  * @linecount_flag: Flag to indicate whether line counting is enabled.
- * @fname: The name of the file (if the command is related to a script or file execution).
- * @env_variables: A linked list of environment variables associated with the command.
+ * @fname: The name of the file (if the cmd is relat to script or file exec).
+ * @env_variables: A linked list of env variables associated with the command.
  * @history: A linked list representing the command history.
  * @aliases: A linked list of command aliases.
  * @environ: An array of strings representing the environment variables.
  * @env_changed: Flag to indicate whether the environment has been modified.
  * @status: The status of the command execution (e.g., exit status).
- * @cmd_buffer: An array of strings representing a buffer for commands (e.g., for pipelines).
+ * @cmd_buffer: array of strings represent a buf cmds (e.g., for pipelines).
  * @cmd_chaintype: Type of command chaining (e.g., sequential, background).
  * @read_file: Flag to indicate if the command reads from a file.
  * @history_count: Count of commands in the history.
  */
-typedef struct CommandInfo {
-    char *cmd_str;
-    char **cmd_arguments;
-    char *cmd_path;
-    int argc;
-    unsigned int err_count;
-    int err_number;
-    int linecount_flag;
-    char *fname;
-    str_list *env_variables;
-    str_list *history;
-    str_list *aliases;
-    char **environ;
-    int env_changed;
-    int status;
-    char **cmd_buffer;
-    int cmd_chaintype;
-    int read_file;
-    int history_count;
+typedef struct CommandInfo
+{
+	char *cmd_str;
+	char **cmd_arguments;
+	char *cmd_path;
+	int argc;
+	unsigned int err_count;
+	int err_number;
+	int linecount_flag;
+	char *fname;
+	str_list *env_variables;
+	str_list *history;
+	str_list *aliases;
+	char **environ;
+	int env_changed;
+	int status;
+	char **cmd_buffer;
+	int cmd_chaintype;
+	int read_file;
+	int history_count;
 } CommandInfo;
 
 /**
  * struct BuiltInCommand - Represents a built-in command in a shell.
  *
  * @cmd_name: The name of the built-in command.
- * @cmd_function: A function pointer to the corresponding function for the command.
+ * @cmd_function: A function pointer to
+ * the corresponding function for the command.
  */
 typedef struct BuiltInCommand
 {
@@ -172,7 +175,8 @@ int _help(CommandInfo *info);
 
 /* chain_functions.c */
 int is_chain(CommandInfo *info, char *buf, size_t *p);
-void check_chain(CommandInfo *info, char *buf, size_t *pos, size_t idx, size_t len);
+void check_chain(CommandInfo *info,
+	char *buf, size_t *pos, size_t idx, size_t len);
 
 /* enviroment_functions1.c */
 int _myenv(CommandInfo *info);

@@ -115,7 +115,7 @@ int load_history(CommandInfo *info)
 		add_history_tolist(info, buf + last, linecount++);
 	free(buf); /* Free the buffer as it's no longer needed */
 	info->history_count = linecount; /* Update the history entry count */
-	while (info->history_count-- >= MAX_HISTORY_ENTRIES) /* Remove excess if count exceeds max */
+	while (info->history_count-- >= MAX_HISTORY_ENTRIES)
 		delete_node_at_index(&(info->history), 0);
 	renumber_history(info); /* Renumber the history entries */
 	return (info->history_count);

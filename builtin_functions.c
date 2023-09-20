@@ -59,7 +59,7 @@ int _cd(CommandInfo *info)
 		else
 			chdir_result = chdir(target_dir);
 	}
-	else if (_strcmp(info->cmd_arguments[1], "-") == 0) /* Check if the cmd_str is hyphen.*/
+	else if (_strcmp(info->cmd_arguments[1], "-") == 0)
 	{
 		if (!_getenv(info, "OLDPWD=")) /* Check if the "OLDPWD" env var is set.*/
 		{

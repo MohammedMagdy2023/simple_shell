@@ -5,7 +5,8 @@
  * clear_info - Clear the fields of an CommandInfo struct
  * @info: Pointer to the CommandInfo struct to be cleared
  *
- * Description: This function sets the fields of an CommandInfo struct to NULL or 0,
+ * Description: This function sets the
+ * fields of an CommandInfo struct to NULL or 0,
  * effectively clearing its contents.
  * Return:void.
  */
