@@ -1,101 +1,74 @@
 #include "shell.h"
 
-
 /**
- * clear_info - Clear the fields of an CommandInfo struct
- * @info: Pointer to the CommandInfo struct to be cleared
- *
- * Description: This function sets the fields of an CommandInfo struct to NULL or 0,
- * effectively clearing its contents.
- * Return:void.
+ * clear_info - initializes info_t struct
+ * @info: struct address
  */
-void clear_info(CommandInfo *info)
+void clear_info(info_t *info)
 {
-	info->cmd_str = NULL;
-	info->cmd_arguments = NULL;
-	info->cmd_path = NULL;
+	info->arg = NULL;
+	info->argv = NULL;
+	info->path = NULL;
 	info->argc = 0;
 }
 
 /**
- * set_info - Sets information in the Info structure.
- * @info: Pointer to an Info structure.
- * @command_line_args: Array of strings representing command-line arguments.
- * Return:void.
+ * set_info - initializes info_t struct
+ * @info: struct address
+ * @av: argument vector
  */
-void set_info(CommandInfo *info, char **command_line_args)
+void set_info(info_t *info, char **av)
 {
 	int i = 0;
 
-	info->fname = command_line_args[0];
-	if (info->cmd_str)
+	info->fname = av[0];
+	if (info->arg)
 	{
-	/* Split the argument into an array of strings */
-		info->cmd_arguments = strtow(info->cmd_str, " \t");
-		if (!info->cmd_arguments)
+		info->argv = strtow(info->arg, " \t");
+		if (!info->argv)
 		{
-			/* If splitting fails, allocate memory for a single argument */
-			info->cmd_arguments = malloc(sizeof(char *) * 2);
-			if (info->cmd_arguments)
+
+			info->argv = malloc(sizeof(char *) * 2);
+			if (info->argv)
 			{
-				info->cmd_arguments[0] = _strdup(info->cmd_str);
-				info->cmd_arguments[1] = NULL;
+				info->argv[0] = _strdup(info->arg);
+				info->argv[1] = NULL;
 			}
 		}
-		/* Count the number of arguments */
-		for (i = 0; info->cmd_arguments && info->cmd_arguments[i]; i++)
+		for (i = 0; info->argv && info->argv[i]; i++)
 			;
 		info->argc = i;
 
-		/* Replace aliases and variables in the arguments */
 		replace_alias(info);
 		replace_vars(info);
 	}
 }
 
 /**
- * free_info - Frees memory allocated for
- * the Info structure and associated data.
- * @info: Pointer to an Info structure.
- * @all: Flag indicating whether to free all associated data.
- * Return:void.
+ * free_info - frees info_t struct fields
+ * @info: struct address
+ * @all: true if freeing all fields
  */
-void free_info(CommandInfo *info, int all)
+void free_info(info_t *info, int all)
 {
-	/* Free the array of arguments */
-	ffree(info->cmd_arguments);
-	info->cmd_arguments = NULL;
-
-	/* Reset the path */
-	info->cmd_path = NULL;
+	ffree(info->argv);
+	info->argv = NULL;
+	info->path = NULL;
 	if (all)
 	{
-		/* Free argument string if cmd_buf is not present */
-		if (!info->cmd_buffer)
-			free(info->cmd_str);
-
-		/* Free environment variables list */
-		if (info->env_variables)
-			free_list(&(info->env_variables));
-
-		/* Free history list */
+		if (!info->cmd_buf)
+			free(info->arg);
+		if (info->env)
+			free_list(&(info->env));
 		if (info->history)
 			free_list(&(info->history));
-
-		/* Free alias list */
-		if (info->aliases)
-			free_list(&(info->aliases));
-
-		/* Free the environment variables array */
+		if (info->alias)
+			free_list(&(info->alias));
 		ffree(info->environ);
 			info->environ = NULL;
-
-		/* Free cmd_buf and close the read_fd */
-		bfree((void **)info->cmd_buffer);
-		if (info->read_file > 2)
-			close(info->read_file);
-
-		/* Output a character, possibly for buffer flushing */
-		_putchar(BUF_FLUSH_FLAG);
+		bfree((void **)info->cmd_buf);
+		if (info->readfd > 2)
+			close(info->readfd);
+		_putchar(BUF_FLUSH);
 	}
 }

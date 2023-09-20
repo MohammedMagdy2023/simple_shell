@@ -1,119 +1,87 @@
 #include "shell.h"
 
-
-
 /**
- * _strdup - Duplicates a string.
- * @str: The input string to be duplicated.
+ * _strcpy - copies a string
+ * @dest: the destination
+ * @src: the source
  *
- * Return: A pointer to the duplicated string.
+ * Return: pointer to destination
  */
-char *_strdup(const char *str)
+char *_strcpy(char *dest, char *src)
 {
-	int len = 0;
-	char *duplicate_str;
+	int i = 0;
 
-	if (str == NULL)
-	{
-		return (NULL);
-	}
-	while (*str++)
-	{
-		len++;
-	}
-	duplicate_str = malloc(sizeof(char) * (len + 1));
-	if (!duplicate_str)
-	{
-		return (NULL);
-	}
-	for (len++; len--;)
-	{
-		duplicate_str[len] = *--str;
-	}
-	return (duplicate_str);
-}
-
-/**
- * starts_with - Checks if a string starts with another string.
- * @haystack: The string to check.
- * @needle: The prefix string to look for at the beginning.
- *
- * Return: A pointer to the start of the substring if found, or NULL otherwise.
- */
-char *starts_with(const char *haystack, const char *needle)
-{
-	while (*needle)
-	{
-		if (*needle++ != *haystack++)
-		{
-			return (NULL);
-		}
-	}
-	return ((char *)haystack);
-}
-
-
-/**
- * _strncpy - Copies up to 'n' characters from source to destination.
- * @dest: The destination string where the copy will be placed.
- * @src: The source string to be copied.
- * @n: The maximum number of characters to copy.
- *
- * Return: A pointer to the destination string.
- */
-char *_strncpy(char *dest, char *src, int n)
-{
-	int i, j;
-	char *s = dest;
-
-	i = 0;
-	while (src[i] != '\0' && i < n - 1)
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[i])
 	{
 		dest[i] = src[i];
 		i++;
 	}
-	if (i < n)
-	{
-		j = i;
-		while (j < n)
-		{
-			dest[j] = '\0';
-			j++;
-		}
-	}
-	return (s);
+	dest[i] = 0;
+	return (dest);
 }
 
+/**
+ * _strdup - duplicates a string
+ * @str: the string to duplicate
+ *
+ * Return: pointer to the duplicated string
+ */
+char *_strdup(const char *str)
+{
+	int length = 0;
+	char *ret;
+
+	if (str == NULL)
+		return (NULL);
+	while (*str++)
+		length++;
+	ret = malloc(sizeof(char) * (length + 1));
+	if (!ret)
+		return (NULL);
+	for (length++; length--;)
+		ret[length] = *--str;
+	return (ret);
+}
 
 /**
- * _strncat - Concatenates (appends) up to 'n' characters
- * from source to destination.
- * @dest: The destination string where the concatenation will occur.
- * @src: The source string to be appended.
- * @n: The maximum number of characters to append.
+ *_puts - prints an input string
+ *@str: the string to be printed
  *
- * Return: A pointer to the destination string.
+ * Return: Nothing
  */
-char *_strncat(char *dest, char *src, int n)
+void _puts(char *str)
 {
-	int i, j;
-	char *result = dest;
+	int i = 0;
 
-	i = 0;
-	j = 0;
-	while (dest[i] != '\0')
+	if (!str)
+		return;
+	while (str[i] != '\0')
 	{
+		_putchar(str[i]);
 		i++;
 	}
-	while (src[j] != '\0' && j < n)
+}
+
+/**
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _putchar(char c)
+{
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
+
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 	{
-		dest[i] = src[j];
-		i++;
-		j++;
+		write(1, buf, i);
+		i = 0;
 	}
-	if (j < n)
-	{
-		dest[i] = '\0';
-	}
-	return (result);
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
+	return (1);
 }
