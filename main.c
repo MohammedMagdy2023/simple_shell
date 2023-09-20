@@ -10,7 +10,7 @@
 int main(int argc, char **argv)
 {
 	/* Initialize an array of 'info' structures */
-	info_t info[] = { INFO_INITIALIZER };
+	CommandInfo info[] = { INFO_INITIALIZER };
 	/* File descriptor for standard error (stderr) */
 	int stderr_fd = 2;
 

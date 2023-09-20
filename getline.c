@@ -8,7 +8,7 @@
  *
  * Return: The number of bytes read or -1 on error.
  */
-ssize_t read_buf(info_t *info, char *buffer, size_t *bytes_read)
+ssize_t read_buf(CommandInfo *info, char *buffer, size_t *bytes_read)
 {
 	ssize_t read_result = 0;
 
@@ -38,7 +38,7 @@ ssize_t read_buf(info_t *info, char *buffer, size_t *bytes_read)
  * Return: The number of characters read,
  * -1 on failure, or 0 at the end of input.
  */
-int _getline(info_t *info, char **ptr, size_t *n)
+int _getline(CommandInfo *info, char **ptr, size_t *n)
 {
 	static char buf[INPUT_BUF_SIZE];
 	static size_t buf_index, buf_len;

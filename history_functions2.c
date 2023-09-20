@@ -6,7 +6,7 @@
  * @info: Pointer to the info structure.
  * Return: 0 (success).
  */
-int _myhistory(info_t *info) /* display_history */
+int _myhistory(CommandInfo *info) /* display_history */
 {
 	print_list(info->history);
 	return (0);

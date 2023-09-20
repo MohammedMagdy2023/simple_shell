@@ -3,13 +3,13 @@
 
 /**
  * input_buf - Read input from the user and store it in a buffer.
- * @info: Pointer to the info_t structure.
+ * @info: Pointer to the CommandInfo structure.
  * @user_input: Pointer to the buffer to store input.
  * @buffer_length: Pointer to the length of the buffer.
  *
  * Return: Number of characters read or an error code.
  */
-ssize_t input_buf(info_t *info, char **user_input, size_t *buffer_length)
+ssize_t input_buf(CommandInfo *info, char **user_input, size_t *buffer_length)
 {
 	ssize_t characters_read  = 0;
 	size_t buffer_size = 0;
@@ -55,14 +55,14 @@ ssize_t input_buf(info_t *info, char **user_input, size_t *buffer_length)
 
 /**
  * get_input - Read and process user input.
- * @info: Pointer to the info_t structure containing shell information.
+ * @info: Pointer to the CommandInfo structure containing shell information.
  *
  * This function reads user input, handles command chains separated by ';',
  * and sets up the next command to be executed.
  *
  * Return: The length of the current command, or -1 on EOF (End-of-File).
  */
-ssize_t get_input(info_t *info)
+ssize_t get_input(CommandInfo *info)
 {
 	static char *buf;
 	static size_t i, j, len;

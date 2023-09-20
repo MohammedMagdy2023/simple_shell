@@ -7,7 +7,7 @@
  *
  * Return: 1 on success, 0 on error.
  */
-int replace_alias(info_t *info)
+int replace_alias(CommandInfo *info)
 {
 	int i;
 	str_list *node;

@@ -2,14 +2,14 @@
 
 
 /**
- * clear_info - Clear the fields of an info_t struct
- * @info: Pointer to the info_t struct to be cleared
+ * clear_info - Clear the fields of an CommandInfo struct
+ * @info: Pointer to the CommandInfo struct to be cleared
  *
- * Description: This function sets the fields of an info_t struct to NULL or 0,
+ * Description: This function sets the fields of an CommandInfo struct to NULL or 0,
  * effectively clearing its contents.
  * Return:void.
  */
-void clear_info(info_t *info)
+void clear_info(CommandInfo *info)
 {
 	info->arg = NULL;
 	info->argv = NULL;
@@ -23,7 +23,7 @@ void clear_info(info_t *info)
  * @command_line_args: Array of strings representing command-line arguments.
  * Return:void.
  */
-void set_info(info_t *info, char **command_line_args)
+void set_info(CommandInfo *info, char **command_line_args)
 {
 	int i = 0;
 
@@ -60,7 +60,7 @@ void set_info(info_t *info, char **command_line_args)
  * @all: Flag indicating whether to free all associated data.
  * Return:void.
  */
-void free_info(info_t *info, int all)
+void free_info(CommandInfo *info, int all)
 {
 	/* Free the array of arguments */
 	ffree(info->argv);

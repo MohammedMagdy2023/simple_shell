@@ -92,7 +92,7 @@ int print_d(int input, int filedescriptor)
  * the error and the error message itself.
  * Return: void
  */
-void print_error(info_t *info, char *str)
+void print_error(CommandInfo *info, char *str)
 {
 	/* Print the filename associated with the error	*/
 	_eputs(info->fname);

@@ -3,12 +3,12 @@
 
 /**
  * is_cmd - Check if the given path points to a regular file.
- * @info: A pointer to an info_t struct (not used in this function).
+ * @info: A pointer to an CommandInfo struct (not used in this function).
  * @path: A pointer to a string representing the file path to check.
  *
  * Return: 1 if path is a regular file, 0 otherwise.
  */
-int is_cmd(info_t *info, char *path)
+int is_cmd(CommandInfo *info, char *path)
 {
 	struct stat st;
 
@@ -29,7 +29,7 @@ int is_cmd(info_t *info, char *path)
 
 /**
  * find_path - Find the full path of a command executable.
- * @info: A pointer to an info_t struct (not used in this function).
+ * @info: A pointer to an CommandInfo struct (not used in this function).
  * @pathstr: A string containing a list of
  * directories in which to search for the command.
  * @cmd: The command name to find.
@@ -37,7 +37,7 @@ int is_cmd(info_t *info, char *path)
  * Return: A pointer to a string containing the full
  * path of the command if found, or NULL if not found.
  */
-char *find_path(info_t *info, char *pathstr, char *cmd)
+char *find_path(CommandInfo *info, char *pathstr, char *cmd)
 {
 	int i = 0, curr_pos = 0;
 	char *path;
@@ -80,7 +80,7 @@ char *find_path(info_t *info, char *pathstr, char *cmd)
  *
  * Return: void
  */
-void find_cmd(info_t *info)
+void find_cmd(CommandInfo *info)
 {
 	char *path = NULL;
 	int i, num_args;
@@ -130,7 +130,7 @@ void find_cmd(info_t *info)
  *
  * Return: void
  */
-void fork_cmd(info_t *info)
+void fork_cmd(CommandInfo *info)
 {
 	pid_t child_pid;
 

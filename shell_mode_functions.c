@@ -3,11 +3,11 @@
 
 /**
  * interactive - Check if the program is running in an interactive mode.
- * @info: Pointer to the info_t structure.
+ * @info: Pointer to the CommandInfo structure.
  *
  * Return: 1 if in interactive mode, 0 otherwise.
  */
-int interactive(info_t *info)
+int interactive(CommandInfo *info)
 {
 
 	/* Check if the std input (file  0) is associated with a terminal, */

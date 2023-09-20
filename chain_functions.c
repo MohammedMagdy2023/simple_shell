@@ -8,7 +8,7 @@
  * @p: Pointer to the current position in the buffer.
  * Return: 1 if a chaining operator is found, 0 otherwise.
  */
-int is_chain(info_t *info, char *buf, size_t *p)
+int is_chain(CommandInfo *info, char *buf, size_t *p)
 {
 	size_t pos = *p;
 
@@ -46,7 +46,7 @@ int is_chain(info_t *info, char *buf, size_t *p)
  * @idx: The current position in the buffer.
  * @len: The length of the buffer.
  */
-void check_chain(info_t *info, char *buf, size_t *pos, size_t idx, size_t len)
+void check_chain(CommandInfo *info, char *buf, size_t *pos, size_t idx, size_t len)
 {
 	size_t temp_pos = *pos;
 

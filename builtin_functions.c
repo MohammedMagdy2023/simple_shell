@@ -7,7 +7,7 @@
  *
  * Return: -2 to indicate the program should exit, 1 on error.
  */
-int _myexit(info_t *info)
+int _myexit(CommandInfo *info)
 {
 	int exit_code;
 
@@ -42,7 +42,7 @@ int _myexit(info_t *info)
  *
  * Return: 0 on success, 1 on error.
  */
-int _mycd(info_t *info)
+int _mycd(CommandInfo *info)
 {
 	char *current_dir, *target_dir, buffer[1024];
 	int chdir_result;
@@ -92,7 +92,7 @@ int _mycd(info_t *info)
  *
  * Return: Always returns 0.
  */
-int _myhelp(info_t *info)
+int _myhelp(CommandInfo *info)
 {
 	char **arg_array;
 

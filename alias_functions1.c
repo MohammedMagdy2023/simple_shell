@@ -8,7 +8,7 @@
  *
  * Return: 0 on success, 1 on error.
  */
-int unset_alias(info_t *info, char *str)
+int unset_alias(CommandInfo *info, char *str)
 {
 	char *equal_sign, saved_char;
 	int result;
@@ -42,7 +42,7 @@ int unset_alias(info_t *info, char *str)
  *
  * Return: 0 on success, 1 on error.
  */
-int set_alias(info_t *info, char *str)
+int set_alias(CommandInfo *info, char *str)
 {
 	char *equal_sign;
 
@@ -99,7 +99,7 @@ int print_alias(str_list *node)
  *
  * Return: 0 on success, 1 on error.
  */
-int _myalias(info_t *info)
+int _myalias(CommandInfo *info)
 {
 	int i = 0;
 	char *equal_sign = NULL;

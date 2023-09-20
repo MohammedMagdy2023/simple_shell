@@ -7,7 +7,7 @@
  *
  * Return: Always returns 0.
  */
-int _myenv(info_t *info)
+int _myenv(CommandInfo *info)
 {
 	print_list_str(info->env);
 	return (0);
@@ -21,7 +21,7 @@ int _myenv(info_t *info)
  * Return: A pointer to the value of the
  * environment variable or NULL if not found.
  */
-char *_getenv(info_t *info, const char *name)
+char *_getenv(CommandInfo *info, const char *name)
 {
 	str_list *current_node = info->env;
 	char *p;
@@ -50,7 +50,7 @@ char *_getenv(info_t *info, const char *name)
  *
  * Return: 0 on success, 1 on error.
  */
-int _mysetenv(info_t *info)
+int _mysetenv(CommandInfo *info)
 {
 	/* Check if the number of arguments is not equal to 3. */
 	if (info->argc != 3)
@@ -73,7 +73,7 @@ int _mysetenv(info_t *info)
  *
  * Return: 0 on success, 1 on error.
  */
-int _myunsetenv(info_t *info)
+int _myunsetenv(CommandInfo *info)
 {
 	int i;
 
@@ -100,7 +100,7 @@ int _myunsetenv(info_t *info)
  *
  * Return: 0 on success, no error handling for simplicity.
  */
-int populate_env_list(info_t *info)
+int populate_env_list(CommandInfo *info)
 {
 	str_list *env_list = NULL;
 	size_t i;

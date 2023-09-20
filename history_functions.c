@@ -5,7 +5,7 @@
  * @info: Pointer to an Info structure containing home directory information.
  * Return: A dynamically allocated string containing the history file path.
  */
-char *get_history_file(info_t *info)
+char *get_history_file(CommandInfo *info)
 {
 	char *history_file_path, *home_directory;
 
@@ -45,7 +45,7 @@ char *get_history_file(info_t *info)
  * @info: Pointer to an Info structure.
  * Return: 1 on success, -1 on failure.
  */
-int write_history(info_t *info)
+int write_history(CommandInfo *info)
 {
 	ssize_t fileddescriptor;
 	char *filename = get_history_file(info);
@@ -77,7 +77,7 @@ int write_history(info_t *info)
  * @info: Pointer to an Info structure.
  * Return: Number of history entries read or 0 on failure.
  */
-int read_history(info_t *info)
+int read_history(CommandInfo *info)
 {
 	int i, last = 0, linecount = 0;
 	ssize_t filedescriptor, bytes_read, file_size = 0;
@@ -128,7 +128,7 @@ int read_history(info_t *info)
  * @line_number: The line number associated with the data.
  * Return: 0 on success.
  */
-int build_history_list(info_t *info, char *data, int line_number)
+int build_history_list(CommandInfo *info, char *data, int line_number)
 {
 	str_list *new_node = NULL;
 
@@ -146,7 +146,7 @@ int build_history_list(info_t *info, char *data, int line_number)
  * @info: Pointer to the history entry list.
  * Return: The total number of history entries.
  */
-int renumber_history(info_t *info)
+int renumber_history(CommandInfo *info)
 {
 	str_list *node = info->history;
 	int cpt = 0;

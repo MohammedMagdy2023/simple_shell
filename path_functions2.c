@@ -8,7 +8,7 @@
  * Return: The return value of the executed
  * built-in command, or -1 if not found.
  */
-int find_builtin(info_t *info)
+int find_builtin(CommandInfo *info)
 {
 	int i, built_in_ret = -1;
 

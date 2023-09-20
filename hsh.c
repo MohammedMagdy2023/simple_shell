@@ -7,7 +7,7 @@
  *
  * Return: The return value of the executed command.
  */
-int hsh(info_t *info, char **argv)
+int hsh(CommandInfo *info, char **argv)
 {
 	ssize_t read_result = 0;
 	int builtin_result = 0;

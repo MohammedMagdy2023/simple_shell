@@ -7,7 +7,7 @@
  *
  * Return: An array of strings containing environment variables.
  */
-char **get_environ(info_t *info)
+char **get_environ(CommandInfo *info)
 {
 	/* Check if the 'environ' array is not set or if the env has changed.*/
 	if (!info->environ || info->env_changed)
@@ -29,7 +29,7 @@ char **get_environ(info_t *info)
  *
  * Return: 1 if the environment was changed, 0 if not.
  */
-int _unsetenv(info_t *info, char *name)
+int _unsetenv(CommandInfo *info, char *name)
 {
 	str_list *current_node = info->env;
 	size_t i = 0;
@@ -70,7 +70,7 @@ int _unsetenv(info_t *info, char *name)
  *
  * Return: 0 on success, 1 on error.
  */
-int _setenv(info_t *info, char *var, char *value)
+int _setenv(CommandInfo *info, char *var, char *value)
 {
 	char *buf = NULL;
 	str_list *current_node;
@@ -119,7 +119,7 @@ int _setenv(info_t *info, char *var, char *value)
  * @info: Pointer to the info structure.
  * Return: 0 (success).
  */
-int replace_vars(info_t *info)
+int replace_vars(CommandInfo *info)
 {
 	int i = 0;
 	str_list *node;
