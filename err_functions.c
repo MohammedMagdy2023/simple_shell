@@ -38,7 +38,7 @@ int _erratoi(char *str)
 }
 
 /**
- * print_d - Print an integer to a file descriptor
+ * _dprintf - Print an integer to a file descriptor
  * @input: The integer to be printed
  * @filedescriptor: The file descriptor to write to
  *
@@ -47,7 +47,7 @@ int _erratoi(char *str)
  *
  * Return: The number of characters printed.
  */
-int print_d(int input, int filedescriptor)
+int _dprintf(int input, int filedescriptor)
 {
 	/* Function pointer for character output */
 	int (*__putchar)(char) = _putchar;
@@ -98,7 +98,7 @@ void print_error(CommandInfo *info, char *str)
 	_eputs(info->fname);
 	_eputs(": ");
 	/* Print the line number where the error occurred */
-	print_d(info->err_count, STDERR_FILENO);
+	_dprintf(info->err_count, STDERR_FILENO);
 	_eputs(": ");
 	_eputs(info->cmd_arguments[0]); /* Print the name of the program */
 	_eputs(": ");

@@ -41,11 +41,11 @@ char *get_history_file(CommandInfo *info)
 }
 
 /**
- * write_history - Write history data to a file.
+ * save_history - Write history data to a file.
  * @info: Pointer to an Info structure.
  * Return: 1 on success, -1 on failure.
  */
-int write_history(CommandInfo *info)
+int save_history(CommandInfo *info)
 {
 	ssize_t fileddescriptor;
 	char *filename = get_history_file(info);
@@ -73,11 +73,11 @@ int write_history(CommandInfo *info)
 }
 
 /**
- * read_history - Read history data from a file.
+ * load_history - Read history data from a file.
  * @info: Pointer to an Info structure.
  * Return: Number of history entries read or 0 on failure.
  */
-int read_history(CommandInfo *info)
+int load_history(CommandInfo *info)
 {
 	int i, last = 0, linecount = 0;
 	ssize_t filedescriptor, bytes_read, file_size = 0;
@@ -108,11 +108,11 @@ int read_history(CommandInfo *info)
 		if (buf[i] == '\n')
 		{
 			buf[i] = 0;
-			build_history_list(info, buf + last, linecount++);
+			add_history_tolist(info, buf + last, linecount++);
 			last = i + 1;
 		}
 	if (last != i) /* Check if the last entry was not processed */
-		build_history_list(info, buf + last, linecount++);
+		add_history_tolist(info, buf + last, linecount++);
 	free(buf); /* Free the buffer as it's no longer needed */
 	info->history_count = linecount; /* Update the history entry count */
 	while (info->history_count-- >= MAX_HISTORY_ENTRIES) /* Remove excess if count exceeds max */
@@ -122,13 +122,13 @@ int read_history(CommandInfo *info)
 }
 
 /**
- * build_history_list - Builds a history entry and adds it to the list.
+ * add_history_tolist - Builds a history entry and adds it to the list.
  * @info: Pointer to the history list.
  * @data: The data to add.
  * @line_number: The line number associated with the data.
  * Return: 0 on success.
  */
-int build_history_list(CommandInfo *info, char *data, int line_number)
+int add_history_tolist(CommandInfo *info, char *data, int line_number)
 {
 	str_list *new_node = NULL;
 

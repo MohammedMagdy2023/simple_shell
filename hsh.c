@@ -37,7 +37,7 @@ int hsh(CommandInfo *info, char **cmd_arguments)
 			_putchar('\n');
 		free_info(info, 0);  /* Free dynamically allocated memory.*/
 	}
-	write_history(info); /* Write command history.*/
+	save_history(info); /* Write command history.*/
 	free_info(info, 1); /* Free remaining allocated memory. */
 
 	if (!interactive(info) && info->status) /* Exit with appropriate err code */

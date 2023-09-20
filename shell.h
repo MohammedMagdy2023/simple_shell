@@ -158,7 +158,7 @@ char *dup_chars(char *source, int start, int stop);
 int unset_alias(CommandInfo *info, char *str);
 int set_alias(CommandInfo *info, char *str);
 int print_alias(str_list *node);
-int _myalias(CommandInfo *info);
+int _alias_handler(CommandInfo *info);
 
 /* alias_functions2.c */
 int replace_alias(CommandInfo *info);
@@ -166,7 +166,7 @@ int _mysetenv(CommandInfo *info);
 int _myunsetenv(CommandInfo *info);
 
 /* builtin_functions.c */
-int _myexit(CommandInfo *info);
+int _exit1(CommandInfo *info);
 int _cd(CommandInfo *info);
 int _help(CommandInfo *info);
 
@@ -193,13 +193,13 @@ void sigintHandler(__attribute__((unused))int sig_num);
 
 /* history_functions.c */
 char *get_history_file(CommandInfo *info);
-int write_history(CommandInfo *info);
-int read_history(CommandInfo *info);
-int build_history_list(CommandInfo *info, char *data, int line_number);
+int save_history(CommandInfo *info);
+int load_history(CommandInfo *info);
+int add_history_tolist(CommandInfo *info, char *data, int line_number);
 int renumber_history(CommandInfo *info);
 
 /* history_functions2.c */
-int _myhistory(CommandInfo *info);
+int _history(CommandInfo *info);
 
 /* hsh.c */
 int hsh(CommandInfo *info, char **cmd_arguments);
@@ -216,7 +216,7 @@ void remove_comments(char *input_string);
 
 /* err_functions.c */
 int _erratoi(char *str);
-int print_d(int input, int filedescriptor);
+int _dprintf(int input, int filedescriptor);
 void print_error(CommandInfo *info, char *str);
 char *convert_number(long int num, int base, int flags);
 
@@ -236,9 +236,9 @@ ssize_t get_node_index(str_list *head, str_list *node);
 
 /* memory_functions.c */
 char *_memset(char *s, char character, unsigned int num_bytes);
-void ffree(char **str_array);
+void _free(char **str_array);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-int bfree(void **ptr);
+int _freenreset(void **ptr);
 
 /* path_functions1.c */
 int is_cmd(CommandInfo *info, char *cmd_path);

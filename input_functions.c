@@ -42,7 +42,7 @@ ssize_t input_buf(CommandInfo *info, char **user_input, size_t *buffer_length)
 			remove_comments(*user_input); /* Remove comments from the input */
 
 			/* Build a history list with the input and increment the history count */
-			build_history_list(info, *user_input, info->history_count++);
+			add_history_tolist(info, *user_input, info->history_count++);
 			/* if (_strchr(*user_input, ';')) is this a command chain? */
 			{
 				*buffer_length = characters_read; /* Update buff len ,store info  */

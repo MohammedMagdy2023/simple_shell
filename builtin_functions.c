@@ -2,12 +2,12 @@
 
 
 /**
- * _myexit - Custom implementation of the "exit" built-in command.
+ * _exit1 - Custom implementation of the "exit" built-in command.
  * @info: Pointer to a structure containing program information.
  *
  * Return: -2 to indicate the program should exit, 1 on error.
  */
-int _myexit(CommandInfo *info)
+int _exit1(CommandInfo *info)
 {
 	int exit_code;
 

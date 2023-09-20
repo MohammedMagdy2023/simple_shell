@@ -44,7 +44,7 @@ int main(int argc, char **cmd_arguments)
 	populate_env_list(info);
 
 	/* Read command history */
-	read_history(info);
+	load_history(info);
 
 	/* Execute the 'hsh' function with the 'info' */
 	hsh(info, cmd_arguments);

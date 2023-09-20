@@ -14,14 +14,14 @@ int find_builtin(CommandInfo *info)
 
 	/* Define an array of built-in commands their corresponding functions. */
 	BuiltInCommandTable builtincmd[] = {
-		{"exit", _myexit},
+		{"exit", _exit1},
 		{"env", _myenv},
 		{"help", _help},
-		{"history", _myhistory},
+		{"history", _history},
 		{"setenv", _mysetenv},
 		{"unsetenv", _myunsetenv},
 		{"cd", _cd},
-		{"alias", _myalias},
+		{"alias", _alias_handler},
 		{NULL, NULL}
 	};
 

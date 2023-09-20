@@ -22,11 +22,11 @@ char *_memset(char *s, char character, unsigned int num_bytes)
 }
 
 /**
- * ffree - Frees memory occupied by an array
+ * _free - Frees memory occupied by an array
  * of strings and the array itself.
  * @str_array: A pointer to an array of strings.
  */
-void ffree(char **str_array)
+void _free(char **str_array)
 {
 	char **a = str_array;
 
@@ -75,12 +75,12 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * bfree - Frees memory and sets the pointer to NULL.
+ * _freenreset - Frees memory and sets the pointer to NULL.
  * @ptr: A pointer to a pointer to the memory to be freed.
  *
  * Return: 1 if memory was freed, 0 if not.
  */
-int bfree(void **ptr)
+int _freenreset(void **ptr)
 {
 	if (ptr && *ptr)
 	{

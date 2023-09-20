@@ -63,7 +63,7 @@ void set_info(CommandInfo *info, char **command_line_args)
 void free_info(CommandInfo *info, int all)
 {
 	/* Free the array of arguments */
-	ffree(info->cmd_arguments);
+	_free(info->cmd_arguments);
 	info->cmd_arguments = NULL;
 
 	/* Reset the cmd_path */
@@ -87,11 +87,11 @@ void free_info(CommandInfo *info, int all)
 			free_list(&(info->aliases));
 
 		/* Free the environment variables array */
-		ffree(info->environ);
+		_free(info->environ);
 			info->environ = NULL;
 
 		/* Free cmd_buf and close the read_fd */
-		bfree((void **)info->cmd_buffer);
+		_freenreset((void **)info->cmd_buffer);
 		if (info->read_file > 2)
 			close(info->read_file);
 

@@ -94,12 +94,12 @@ int print_alias(str_list *node)
 }
 
 /**
- * _myalias - Handle alias-related functionality.
+ * _alias_handler - Handle alias-related functionality.
  * @info: Pointer to a structure containing program information.
  *
  * Return: 0 on success, 1 on error.
  */
-int _myalias(CommandInfo *info)
+int _alias_handler(CommandInfo *info)
 {
 	int i = 0;
 	char *equal_sign = NULL;
