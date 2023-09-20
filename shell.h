@@ -12,27 +12,28 @@
 #include <fcntl.h>
 #include <errno.h>
 
-/* for read/write buffers */
-#define READ_BUF_SIZE 1024
-#define WRITE_BUF_SIZE 1024
-#define BUF_FLUSH -1
+/* Constants for buffer sizes */
 
-/* for command chaining */
-#define CMD_NORM	0
-#define CMD_OR		1
-#define CMD_AND		2
-#define CMD_CHAIN	3
+#define INPUT_BUF_SIZE 1024
+#define OUTPUT_BUF_SIZE 1024
+#define BUF_FLUSH_FLAG -1
 
-/* for convert_number() */
+/* Constants for command chaining */
+#define NORMAL_COMMAND	0
+#define OR_COMMAND	1
+#define AND_COMMAND	2
+#define COMMAND_CHAIN	3
+
+/* Constants for number conversion */
 #define CONVERT_LOWERCASE	1
 #define CONVERT_UNSIGNED	2
 
-/* 1 if using system getline() */
-#define USE_GETLINE 0
-#define USE_STRTOK 0
+/* Flags for system function usage */
+#define USE_SYS_GETLINE 0
+#define USE_SYS_STRTOK 0
 
-#define HIST_FILE	".simple_shell_history"
-#define HIST_MAX	4096
+#define HISTORY_FNAME	".simple_shell_history"
+#define MAX_HISTORY_ENTRIES	4096
 
 extern char **environ;
 
@@ -43,12 +44,12 @@ extern char **environ;
  * @str: a string
  * @next: points to the next node
  */
-typedef struct liststr
+typedef struct str_list
 {
 	int num;
 	char *str;
-	struct liststr *next;
-} list_t;
+	struct str_list *next;
+} str_list;
 
 /**
  *struct passinfo - contains pseudo-arguements to pass into a function,
@@ -82,9 +83,9 @@ typedef struct passinfo
 	int err_num;
 	int linecount_flag;
 	char *fname;
-	list_t *env;
-	list_t *history;
-	list_t *alias;
+	str_list *env;
+	str_list *history;
+	str_list *alias;
 	char **environ;
 	int env_changed;
 	int status;
@@ -95,7 +96,7 @@ typedef struct passinfo
 	int histcount;
 } info_t;
 
-#define INFO_INIT \
+#define INFO_INITIALIZER \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 	0, 0, 0}
 
@@ -212,18 +213,18 @@ int build_history_list(info_t *info, char *buf, int linecount);
 int renumber_history(info_t *info);
 
 /* liststr.c module */
-list_t *add_node(list_t **, const char *, int);
-list_t *add_node_end(list_t **, const char *, int);
-size_t print_list_str(const list_t *);
-int delete_node_at_index(list_t **, unsigned int);
-void free_list(list_t **);
+str_list *add_node(str_list **, const char *, int);
+str_list *add_node_end(str_list **, const char *, int);
+size_t print_list_str(const str_list *);
+int delete_node_at_index(str_list **, unsigned int);
+void free_list(str_list **);
 
 /* liststr2.c module */
-size_t list_len(const list_t *);
-char **list_to_strings(list_t *);
-size_t print_list(const list_t *);
-list_t *node_starts_with(list_t *, char *, char);
-ssize_t get_node_index(list_t *, list_t *);
+size_t list_len(const str_list *);
+char **str_listo_strings(str_list *);
+size_t print_list(const str_list *);
+str_list *node_starts_with(str_list *, char *, char);
+ssize_t get_node_index(str_list *, str_list *);
 
 /* chain.c */
 int is_chain(info_t *, char *, size_t *);

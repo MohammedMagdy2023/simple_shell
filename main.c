@@ -1,44 +1,52 @@
 #include "shell.h"
 
 /**
- * main - entry point
- * @ac: arg count
- * @av: arg vector
+ * main - Entry point.
+ * @argc: The number of command-line arguments.
+ * @argv: An array of strings containing the command-line arguments.
  *
- * Return: 0 on success, 1 on error
+ * Return: 0 on success, other values on failure.
  */
-int main(int ac, char **av)
+int main(int argc, char **argv)
 {
-	info_t info[] = { INFO_INIT };
-	int fd = 2;
+	/* Initialize an array of 'info' structures */
+	info_t info[] = { INFO_INITIALIZER };
+	/* File descriptor for standard error (stderr) */
+	int stderr_fd = 2;
 
 	asm ("mov %1, %0\n\t"
 		"add $3, %0"
-		: "=r" (fd)
-		: "r" (fd));
+		: "=r" (stderr_fd)
+		: "r" (stderr_fd));
 
-	if (ac == 2)
+	if (argc == 2)
 	{
-		fd = open(av[1], O_RDONLY);
-		if (fd == -1)
+		stderr_fd = open(argv[1], O_RDONLY);
+		if (stderr_fd == -1)
 		{
 			if (errno == EACCES)
 				exit(126);
 			if (errno == ENOENT)
 			{
-				_eputs(av[0]);
+				_eputs(argv[0]);
 				_eputs(": 0: Can't open ");
-				_eputs(av[1]);
+				_eputs(argv[1]);
 				_eputchar('\n');
-				_eputchar(BUF_FLUSH);
+				_eputchar(BUF_FLUSH_FLAG);
 				exit(127);
 			}
 			return (EXIT_FAILURE);
 		}
-		info->readfd = fd;
+		info->readfd = stderr_fd;
 	}
+
+	/* Populate environment list */
 	populate_env_list(info);
+
+	/* Read command history */
 	read_history(info);
-	hsh(info, av);
+
+	/* Execute the 'hsh' function with the 'info' */
+	hsh(info, argv);
 	return (EXIT_SUCCESS);
 }
