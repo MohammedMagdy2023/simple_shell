@@ -26,14 +26,14 @@ int find_builtin(CommandInfo *info)
 	};
 
 	/* Loop through the array of built-in commands. */
-	for (i = 0; builtincmd[i].type; i++)
+	for (i = 0; builtincmd[i].cmd_name; i++)
 
 		/* Check if the user's input matches a built-in command.*/
-		if (_strcmp(info->cmd_arguments[0], builtincmd[i].type) == 0)
+		if (_strcmp(info->cmd_arguments[0], builtincmd[i].cmd_name) == 0)
 		{
 		/* Increment the line count and execute the built-in command.*/
 			info->err_count++;
-			builtin_result = builtincmd[i].func(info);
+			builtin_result = builtincmd[i].cmd_function(info);
 			break;
 		}
 	return (builtin_result);

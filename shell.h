@@ -12,12 +12,6 @@
 #include <fcntl.h>
 #include <errno.h>
 
-/* Constants for buffer sizes */
-
-#define INPUT_BUF_SIZE 1024
-#define OUTPUT_BUF_SIZE 1024
-#define BUF_FLUSH_FLAG -1
-
 /* Constants for command chaining */
 #define NORMAL_COMMAND	0
 #define OR_COMMAND	1
@@ -32,17 +26,35 @@
 #define USE_SYS_GETLINE 0
 #define USE_SYS_STRTOK 0
 
+/* Constants for buffer sizes */
+#define INPUT_BUF_SIZE 1024
+#define OUTPUT_BUF_SIZE 1024
+#define BUF_FLUSH_FLAG -1
+
+/* Constants for history filename and entries sizes */
 #define HISTORY_FNAME	".simple_shell_history"
 #define MAX_HISTORY_ENTRIES	4096
 
+/**
+ * INFO_INITIALIZER - Macro for initializing a CommandInfo struct with default values.
+ *
+ * This macro creates an instance of the CommandInfo struct with all its members
+ * set to appropriate initial values, typically NULL or 0. It is useful for creating
+ * a default CommandInfo instance when setting up or resetting command information.
+ */
+#define INFO_INITIALIZER \
+{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
+	0, 0, 0}
+
 extern char **environ;
 
-
 /**
- * struct str_list - singly linked list
- * @num: the number field
- * @str: a string
- * @next: points to the next node
+ * struct str_list - Represents a linked list
+ * of string elements with numeric identifiers.
+ *
+ * @num: The numeric identifier associated with the string element.
+ * @str: A pointer to the character array holding the string data.
+ * @next: A pointer to the next element in the linked list.
  */
 typedef struct str_list
 {
@@ -52,26 +64,26 @@ typedef struct str_list
 } str_list;
 
 /**
- *struct CommandInfo - contains pseudo-arguements to pass into a function,
- *					allowing uniform prototype for function pointer struct
- *@cmd_str: a string generated from getline containing arguements
- *@cmd_arguments: an array of strings generated from cmd_str
- *@cmd_path: a string cmd_path for the current command
- *@argc: the argument count
- *@line_count: the error count
- *@err_num: the error code for exit()s
- *@linecount_flag: if on count this line of input
- *@fname: the program filename
- *@env: linked list local copy of environ
- *@environ: custom modified copy of environ from LL env
- *@history: the history node
- *@alias: the alias node
- *@env_changed: on if environ was changed
- *@status: the return status of the last exec'd command
- *@cmd_buf: address of pointer to cmd_buf, on if chaining
- *@cmd_buf_type: CMD_type ||, &&, ;
- *@readfd: the fd from which to read line input
- *@histcount: the history line number count
+ * struct CommandInfo - Represents information about a command in a shell.
+ *
+ * @cmd_str: The original command string entered by the user.
+ * @cmd_arguments: An array of strings representing the individual command arguments.
+ * @cmd_path: The path to the executable associated with the command.
+ * @argc: The number of command arguments.
+ * @err_count: Count of errors encountered while processing the command.
+ * @err_number: The error number associated with the command (if an error occurred).
+ * @linecount_flag: Flag to indicate whether line counting is enabled.
+ * @fname: The name of the file (if the command is related to a script or file execution).
+ * @env_variables: A linked list of environment variables associated with the command.
+ * @history: A linked list representing the command history.
+ * @aliases: A linked list of command aliases.
+ * @environ: An array of strings representing the environment variables.
+ * @env_changed: Flag to indicate whether the environment has been modified.
+ * @status: The status of the command execution (e.g., exit status).
+ * @cmd_buffer: An array of strings representing a buffer for commands (e.g., for pipelines).
+ * @cmd_chaintype: Type of command chaining (e.g., sequential, background).
+ * @read_file: Flag to indicate if the command reads from a file.
+ * @history_count: Count of commands in the history.
  */
 typedef struct CommandInfo {
     char *cmd_str;
@@ -94,19 +106,16 @@ typedef struct CommandInfo {
     int history_count;
 } CommandInfo;
 
-#define INFO_INITIALIZER \
-{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
-	0, 0, 0}
-
 /**
- *struct builtin - contains a builtin string and related function
- *@type: the builtin command flag
- *@func: the function
+ * struct BuiltInCommand - Represents a built-in command in a shell.
+ *
+ * @cmd_name: The name of the built-in command.
+ * @cmd_function: A function pointer to the corresponding function for the command.
  */
 typedef struct BuiltInCommand
 {
-	char *type;
-	int (*func)(CommandInfo *);
+	char *cmd_name;
+	int (*cmd_function)(CommandInfo *);
 } BuiltInCommandTable;
 
 
