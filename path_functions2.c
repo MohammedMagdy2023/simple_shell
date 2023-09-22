@@ -18,10 +18,6 @@ int find_builtin(CommandInfo *info)
 		{"env", _myenv},
 		{"help", _help},
 		{"history", _history},
-		{"setenv", _mysetenv},
-		{"unsetenv", _myunsetenv},
-		{"cd", _cd},
-		{"alias", _alias_handler},
 		{NULL, NULL}
 	};
 

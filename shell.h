@@ -158,19 +158,14 @@ int _isalpha(int character);
 char *dup_chars(char *source, int start, int stop);
 
 /* alias_functions1.c */
-int unset_alias(CommandInfo *info, char *str);
-int set_alias(CommandInfo *info, char *str);
 int print_alias(str_list *node);
 int _alias_handler(CommandInfo *info);
 
 /* alias_functions2.c */
 int replace_alias(CommandInfo *info);
-int _mysetenv(CommandInfo *info);
-int _myunsetenv(CommandInfo *info);
 
 /* builtin_functions.c */
 int _exit1(CommandInfo *info);
-int _cd(CommandInfo *info);
 int _help(CommandInfo *info);
 
 /* chain_functions.c */
@@ -216,7 +211,6 @@ void free_info(CommandInfo *info, int all);
 /* input_functions.c */
 ssize_t input_buf(CommandInfo *info, char **user_input, size_t *buffer_length);
 ssize_t get_input(CommandInfo *info);
-void remove_comments(char *input_string);
 
 /* err_functions.c */
 int _erratoi(char *str);

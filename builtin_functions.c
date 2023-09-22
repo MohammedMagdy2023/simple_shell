@@ -78,11 +78,6 @@ int _cd(CommandInfo *info)
 		print_error(info, "can't cd to ");
 		_eputs(info->cmd_arguments[1]), _eputchar('\n');
 	}
-	else /* Update the "OLDPWD" and "PWD" environment variables.*/
-	{
-		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
-		_setenv(info, "PWD", getcwd(buffer, 1024));
-	}
 	return (0);
 }
 

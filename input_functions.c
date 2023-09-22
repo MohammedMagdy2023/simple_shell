@@ -23,7 +23,7 @@ ssize_t input_buf(CommandInfo *info, char **user_input, size_t *buffer_length)
 		signal(SIGINT, sigintHandler); /* Set signal handler for SIGINT */
 #if USE_GETLINE
 		/* Use the getline function to read input from stdin */
-		characters_read  = getline(user_input, &buffer_size, stdin);
+		characters_read  = _getline(user_input, &buffer_size, stdin);
 #else
 		/* Use a custom _getline function to read input */
 		characters_read  = _getline(info, user_input, &buffer_size);
@@ -38,8 +38,6 @@ ssize_t input_buf(CommandInfo *info, char **user_input, size_t *buffer_length)
 			}
 			/* Set a flag to indicate that a line of input was received */
 			info->linecount_flag = 1;
-
-			remove_comments(*user_input); /* Remove comments from the input */
 
 			/* Build a history list with the input and increment the history count */
 			add_history_tolist(info, *user_input, info->history_count++);
@@ -99,25 +97,4 @@ ssize_t get_input(CommandInfo *info)
 
 	*buf_p = buf;
 	return (r);
-}
-
-/**
- * remove_comments - Remove comments from a string.
- * @input_string: The string from which comments should be removed.
- *
- * This function searches for the '#' character and removes it and everything
- * after it until the end of the string or a newline character is encountered.
- *
- * Return: Always 0;
- */
-void remove_comments(char *input_string)
-{
-	int i;
-
-	for (i = 0; input_string[i] != '\0'; i++)
-		if (input_string[i] == '#' && (!i || input_string[i - 1] == ' '))
-		{
-			input_string[i] = '\0';
-			break;
-		}
 }
