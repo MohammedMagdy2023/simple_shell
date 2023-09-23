@@ -62,23 +62,6 @@ int replace_vars(CommandInfo *info)
 		/* Check if the argument starts with a '$' character and is not empty */
 		if (info->cmd_arguments[i][0] != '$' || !info->cmd_arguments[i][1])
 			continue; /* Skip if doesn't start with '$' or is empty */
-
-		/* Check if the argument is "$?" */
-		if (!_strcmp(info->cmd_arguments[i], "$?"))
-		{
-			/* Replace with the exit status converted to a string */
-			replace_string(&(info->cmd_arguments[i]),
-				_strdup(convert_number(info->status, 10, 0)));
-			continue; /* Move to the next argument */
-		}
-		/* Check if the argument is "$$" */
-		if (!_strcmp(info->cmd_arguments[i], "$$"))
-		{
-			/* Replace with the current process ID converted to a string */
-			replace_string(&(info->cmd_arguments[i]),
-				_strdup(convert_number(getpid(), 10, 0)));
-			continue;
-		} /* Find an env var matches cmd_str (exclud '$') */
 		node = node_starts_with(info->env_variables,
 			&info->cmd_arguments[i][1], '=');
 		if (node)
