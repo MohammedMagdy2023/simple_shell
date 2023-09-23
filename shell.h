@@ -169,9 +169,7 @@ int _exit1(CommandInfo *info);
 int _help(CommandInfo *info);
 
 /* chain_functions.c */
-int is_chain(CommandInfo *info, char *buf, size_t *p);
-void check_chain(CommandInfo *info,
-	char *buf, size_t *pos, size_t idx, size_t len);
+
 
 /* enviroment_functions1.c */
 int _myenv(CommandInfo *info);
